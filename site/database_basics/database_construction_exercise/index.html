@@ -1,0 +1,1025 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="MySQL学習のメモ書き">
+      
+      
+      
+        <meta name="author" content="Shuji Narumi">
+      
+      
+      <link rel="icon" href="../../images/logo_w.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>データベース構築演習 - MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="MySQL" class="md-header__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              データベース構築演習
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="クリア" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MySQL" class="md-nav__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      <label class="md-nav__link" for="__nav_1">
+        データベースの基礎力
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="データベースの基礎力" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          データベースの基礎力
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql_for_the_first_time/" class="md-nav__link">
+        MySQLへの接続
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_and_sql_overview/" class="md-nav__link">
+        データベースとSQLの概要
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_database/" class="md-nav__link">
+        データベースの追加
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_and_update_data/" class="md-nav__link">
+        データの追加と更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_settings_for_table_creation/" class="md-nav__link">
+        テーブル作成の応用設定
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          データベース構築演習
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        データベース構築演習
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    データベースの構築
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    挿入データの日本語化
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    人事情報データベースの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    社員情報テーブルの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    人事評価テーブルの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    給与情報テーブルの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql-workbench-re" class="md-nav__link">
+    MySQL Workbench で生成したRE図
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    データの挿入
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        SQLデータ解析ノウハウ
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLデータ解析ノウハウ" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          SQLデータ解析ノウハウ
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/database_restore/" class="md-nav__link">
+        データベースの復元
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/data_extraction_know-how/" class="md-nav__link">
+        データ抽出のノウハウ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/conditional_statement_using_logical_operators/" class="md-nav__link">
+        論理演算子を利用した条件文
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/functions_available_in_sql/" class="md-nav__link">
+        SQLで利用できる関数
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/table_join/" class="md-nav__link">
+        テーブル結合
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_view/" class="md-nav__link">
+        VIEWの活用
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_subqueries/" class="md-nav__link">
+        サブクエリの活用
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        SQLの復習（勘所）
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLの復習（勘所）" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SQLの復習（勘所）
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/data_reference/" class="md-nav__link">
+        データの参照
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/record_update/" class="md-nav__link">
+        レコードの更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/table_operation/" class="md-nav__link">
+        テーブルの操作
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/others/" class="md-nav__link">
+        その他
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        etc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="etc" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          etc
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/about_index/" class="md-nav__link">
+        INDEX
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/char/" class="md-nav__link">
+        文字コードについて
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/environmental_setting/" class="md-nav__link">
+        環境変更
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/practice/" class="md-nav__link">
+        課題
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    データベースの構築
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    挿入データの日本語化
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    人事情報データベースの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    社員情報テーブルの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    人事評価テーブルの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    給与情報テーブルの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql-workbench-re" class="md-nav__link">
+    MySQL Workbench で生成したRE図
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    データの挿入
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">データベース構築演習<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>データベース構築上のSQLノウハウを活用したケーススタディ演習を実施します。</p>
+<h2 id="_2">データベースの構築<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">仮想シナリオ<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h4 id="_4">人事情報システム要件<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h4>
+<ul>
+<li>社員情報を登録する・管理する</li>
+<li>年次評価情報を管理する</li>
+<li>給与情報を管理する</li>
+</ul>
+<h4 id="_5">必要なデータを考える<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h4>
+<ul>
+<li>社員データ</li>
+<li>評価データ</li>
+<li>給与データ</li>
+</ul>
+<h4 id="_6">細かいデータ項目を設定する<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h4>
+<ul>
+<li>社員データ<ul>
+<li>社員ID</li>
+<li>姓</li>
+<li>名</li>
+<li>性別</li>
+<li>入社年月日</li>
+</ul>
+</li>
+</ul>
+<h4 id="er">ER図に落とし込む<a class="headerlink" href="#er" title="Permanent link">&para;</a></h4>
+<p><img alt="ER図" src="../../images/personnel_payroll_system_2.svg" /></p>
+<h4 id="_7">その他<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
+<ul>
+<li>全ての項目にNOT NULL</li>
+<li>外部キーは親テーブルが変更されたら、子テーブルにも反映されるように設定する</li>
+</ul>
+<h2 id="_8">挿入データの日本語化<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>登録するデータを日本語化する場合は、</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">evaluations</span> <span class="p">(</span> <span class="p">....</span> <span class="p">)</span> <span class="k">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="k">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="_9">人事情報データベースの作成<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">personnel_infomation</span><span class="p">;</span>
+<span class="k">ERROR</span> <span class="mi">2013</span> <span class="p">(</span><span class="n">HY000</span><span class="p">)</span><span class="o">:</span> <span class="n">Lost</span> <span class="k">connection</span> <span class="k">to</span> <span class="n">MySQL</span> <span class="k">server</span> <span class="n">during</span> <span class="k">query</span>
+<span class="k">No</span> <span class="k">connection</span><span class="p">.</span> <span class="n">Trying</span> <span class="k">to</span> <span class="n">reconnect</span><span class="p">...</span>
+<span class="k">Connection</span> <span class="n">id</span><span class="o">:</span>    <span class="mi">941</span>
+<span class="k">Current</span> <span class="k">database</span><span class="o">:</span> <span class="n">orders</span>
+
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.14</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">databases</span><span class="p">;</span>
+<span class="o">+----------------------+</span>
+<span class="o">|</span> <span class="k">Database</span>             <span class="o">|</span>
+<span class="o">+----------------------+</span>
+<span class="o">|</span> <span class="n">information_schema</span>   <span class="o">|</span>
+<span class="o">|</span> <span class="n">innodb</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">mysql</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">performance_schema</span>   <span class="o">|</span>
+<span class="o">|</span> <span class="n">personnel_infomation</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">sys</span>                  <span class="o">|</span>
+<span class="o">+----------------------+</span>
+<span class="mi">7</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_10">社員情報テーブルの作成<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">use</span> <span class="n">personnel_infomation</span><span class="p">;</span>
+<span class="k">Database</span> <span class="k">changed</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">employee_information</span><span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="n">employpee_id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="n">last_name</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">first_name</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">sex</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">birthday</span> <span class="kt">DATE</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">telephone_number</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">date_of_joining_the_company</span> <span class="kt">DATE</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">department</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="s1">&#39;unassigned&#39;</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">employpee_id</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">INDEX</span><span class="p">(</span><span class="n">last_name</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">UNIQUE</span> <span class="k">kEY</span><span class="p">(</span><span class="n">telephone_number</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="p">)</span> <span class="k">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="k">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">employee_information</span><span class="p">;</span>
+<span class="o">+-----------------------------+--------------+------+-----+------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>                       <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>    <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+-----------------------------+--------------+------+-----+------------+-------+</span>
+<span class="o">|</span> <span class="n">employpee_id</span>                <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">last_name</span>                   <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">first_name</span>                  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">sex</span>                         <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">birthday</span>                    <span class="o">|</span> <span class="kt">date</span>         <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">telephone_number</span>            <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">UNI</span> <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">date_of_joining_the_company</span> <span class="o">|</span> <span class="kt">date</span>         <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>       <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">department</span>                  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="n">unassigned</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+-----------------------------+--------------+------+-----+------------+-------+</span>
+<span class="mi">8</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">index</span> <span class="k">from</span> <span class="n">employee_information</span><span class="p">;</span>
+<span class="o">+----------------------+------------+------------------+--------------+------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="k">Table</span>                <span class="o">|</span> <span class="n">Non_unique</span> <span class="o">|</span> <span class="n">Key_name</span>         <span class="o">|</span> <span class="n">Seq_in_index</span> <span class="o">|</span> <span class="k">Column_name</span>      <span class="o">|</span> <span class="k">Collation</span> <span class="o">|</span> <span class="n">Cardinality</span> <span class="o">|</span> <span class="n">Sub_part</span> <span class="o">|</span> <span class="n">Packed</span> <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="n">Index_type</span> <span class="o">|</span> <span class="k">Comment</span> <span class="o">|</span> <span class="n">Index_comment</span> <span class="o">|</span>
+<span class="o">+----------------------+------------+------------------+--------------+------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="n">employee_information</span> <span class="o">|</span>          <span class="mi">0</span> <span class="o">|</span> <span class="k">PRIMARY</span>          <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="n">employpee_id</span>     <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span>      <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">employee_information</span> <span class="o">|</span>          <span class="mi">0</span> <span class="o">|</span> <span class="n">telephone_number</span> <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="n">telephone_number</span> <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span>      <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">employee_information</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span> <span class="n">last_name</span>        <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="n">last_name</span>        <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span>      <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">+----------------------+------------+------------------+--------------+------------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_11">人事評価テーブルの作成<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">use</span> <span class="n">personnel_infomation</span><span class="p">;</span>
+<span class="k">Database</span> <span class="k">changed</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">personnel_evaluation</span><span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="n">reference_no</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">employpee_id</span> <span class="kt">INT</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">evaluation_year</span> <span class="kt">DATE</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">evaluation_rank</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">evaluation_contents</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">reference_no</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">employpee_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">employee_information</span><span class="p">(</span><span class="n">employpee_id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span>
+    <span class="o">-&gt;</span> <span class="p">)</span> <span class="k">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="k">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">personnel_evaluation</span><span class="p">;</span>
+<span class="o">+---------------------+---------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span>               <span class="o">|</span> <span class="k">Type</span>          <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+---------------------+---------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">reference_no</span>        <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">employpee_id</span>        <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">evaluation_year</span>     <span class="o">|</span> <span class="kt">date</span>          <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">evaluation_rank</span>     <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>    <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">evaluation_contents</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+---------------------+---------------+------+-----+---------+----------------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_12">給与情報テーブルの作成<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">use</span> <span class="n">personnel_infomation</span><span class="p">;</span>
+<span class="k">Database</span> <span class="k">changed</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">salary_infomation</span><span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="n">reference_no</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">employpee_id</span> <span class="kt">INT</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">officer</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span> 
+    <span class="o">-&gt;</span> <span class="n">evaluation_monthly_salary_determination_date</span> <span class="kt">DATE</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span> <span class="n">evaluation_monthly_salary</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">reference_no</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">employpee_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">employee_information</span><span class="p">(</span><span class="n">employpee_id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span>
+    <span class="o">-&gt;</span> <span class="p">)</span> <span class="k">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="k">DEFAULT</span> <span class="k">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">salary_infomation</span><span class="p">;</span>
+<span class="o">+----------------------------------------------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span>                                        <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+----------------------------------------------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">reference_no</span>                                 <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">employpee_id</span>                                 <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">officer</span>                                      <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">evaluation_monthly_salary_determination_date</span> <span class="o">|</span> <span class="kt">date</span>         <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">evaluation_monthly_salary</span>                    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+----------------------------------------------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="mysql-workbench-re">MySQL Workbench で生成したRE図<a class="headerlink" href="#mysql-workbench-re" title="Permanent link">&para;</a></h2>
+<p><img alt="ER図" src="../../images/personnel_evaluation.svg" /></p>
+<h2 id="_13">データの挿入<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h3 id="_14">社員情報テーブル<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">employee_information</span> <span class="k">VALUES</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1001</span><span class="p">,</span><span class="s1">&#39;佐藤&#39;</span><span class="p">,</span><span class="s1">&#39;隆&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;060-9783-0193&#39;</span><span class="p">,</span><span class="mi">20180401</span><span class="p">,</span><span class="mi">19750808</span><span class="p">,</span><span class="s1">&#39;営業&#39;</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1002</span><span class="p">,</span><span class="s1">&#39;遠藤&#39;</span><span class="p">,</span><span class="s1">&#39;真紀&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="s1">&#39;060-8503-1284&#39;</span><span class="p">,</span><span class="mi">20160401</span><span class="p">,</span><span class="mi">19740808</span><span class="p">,</span><span class="s1">&#39;人事&#39;</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1003</span><span class="p">,</span><span class="s1">&#39;工藤&#39;</span><span class="p">,</span><span class="s1">&#39;孝明&#39;</span><span class="p">,</span><span class="s1">&#39;m&#39;</span><span class="p">,</span><span class="s1">&#39;060-9874-6382&#39;</span><span class="p">,</span><span class="mi">20100401</span><span class="p">,</span><span class="mi">19720909</span><span class="p">,</span><span class="s1">&#39;開発&#39;</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span><span class="p">,</span> <span class="mi">3</span> <span class="k">warnings</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">3</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">employee_information</span><span class="p">;</span>
+<span class="o">+--------------+-----------+------------+-----+------------+------------------+-----------------------------+------------+</span>
+<span class="o">|</span> <span class="n">employpee_id</span> <span class="o">|</span> <span class="n">last_name</span> <span class="o">|</span> <span class="n">first_name</span> <span class="o">|</span> <span class="n">sex</span> <span class="o">|</span> <span class="n">birthday</span>   <span class="o">|</span> <span class="n">telephone_number</span> <span class="o">|</span> <span class="n">date_of_joining_the_company</span> <span class="o">|</span> <span class="n">department</span> <span class="o">|</span>
+<span class="o">+--------------+-----------+------------+-----+------------+------------------+-----------------------------+------------+</span>
+<span class="o">|</span>         <span class="mi">1001</span> <span class="o">|</span> <span class="n">佐藤</span>      <span class="o">|</span> <span class="n">隆</span>         <span class="o">|</span> <span class="n">m</span>   <span class="o">|</span> <span class="mi">0000</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="mi">00</span> <span class="o">|</span>         <span class="mi">20180401</span> <span class="o">|</span> <span class="mi">1975</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">08</span>                  <span class="o">|</span> <span class="n">営業</span>       <span class="o">|</span>
+<span class="o">|</span>         <span class="mi">1002</span> <span class="o">|</span> <span class="n">遠藤</span>      <span class="o">|</span> <span class="n">真紀</span>       <span class="o">|</span> <span class="n">w</span>   <span class="o">|</span> <span class="mi">0000</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="mi">00</span> <span class="o">|</span>         <span class="mi">20160401</span> <span class="o">|</span> <span class="mi">1974</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">08</span>                  <span class="o">|</span> <span class="n">人事</span>       <span class="o">|</span>
+<span class="o">|</span>         <span class="mi">1003</span> <span class="o">|</span> <span class="n">工藤</span>      <span class="o">|</span> <span class="n">孝明</span>       <span class="o">|</span> <span class="n">m</span>   <span class="o">|</span> <span class="mi">0000</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="mi">00</span> <span class="o">|</span>         <span class="mi">20100401</span> <span class="o">|</span> <span class="mi">1972</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">09</span>                  <span class="o">|</span> <span class="n">開発</span>       <span class="o">|</span>
+<span class="o">+--------------+-----------+------------+-----+------------+------------------+-----------------------------+------------+</span>
+</code></pre></div>
+<h3 id="_15">人事評価テーブル<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">personnel_evaluation</span><span class="p">(</span><span class="n">employpee_id</span><span class="p">,</span> <span class="n">evaluation_year</span><span class="p">,</span> <span class="n">evaluation_rank</span><span class="p">,</span> <span class="n">evaluation_contents</span><span class="p">)</span> <span class="k">VALUES</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1001</span><span class="p">,</span><span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;非常に優秀でした。&#39;</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1002</span><span class="p">,</span><span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;良かったです。&#39;</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1003</span><span class="p">,</span><span class="mi">2019</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span><span class="s1">&#39;今後の改善が必要です。&#39;</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span><span class="p">,</span> <span class="mi">3</span> <span class="k">warnings</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">3</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">personnel_evaluation</span><span class="p">;</span>
+<span class="o">+--------------+--------------+-----------------+-----------------+-----------------------------------+</span>
+<span class="o">|</span> <span class="n">reference_no</span> <span class="o">|</span> <span class="n">employpee_id</span> <span class="o">|</span> <span class="n">evaluation_year</span> <span class="o">|</span> <span class="n">evaluation_rank</span> <span class="o">|</span> <span class="n">evaluation_contents</span>               <span class="o">|</span>
+<span class="o">+--------------+--------------+-----------------+-----------------+-----------------------------------+</span>
+<span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span>         <span class="mi">1001</span> <span class="o">|</span> <span class="mi">0000</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="mi">00</span>      <span class="o">|</span> <span class="n">A</span>               <span class="o">|</span> <span class="n">非常に優秀でした。</span>                <span class="o">|</span>
+<span class="o">|</span>            <span class="mi">2</span> <span class="o">|</span>         <span class="mi">1002</span> <span class="o">|</span> <span class="mi">0000</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="mi">00</span>      <span class="o">|</span> <span class="n">B</span>               <span class="o">|</span> <span class="n">良かったです。</span>                    <span class="o">|</span>
+<span class="o">|</span>            <span class="mi">3</span> <span class="o">|</span>         <span class="mi">1003</span> <span class="o">|</span> <span class="mi">0000</span><span class="o">-</span><span class="mi">00</span><span class="o">-</span><span class="mi">00</span>      <span class="o">|</span> <span class="n">E</span>               <span class="o">|</span> <span class="n">今後の改善が必要です。</span>            <span class="o">|</span>
+<span class="o">+--------------+--------------+-----------------+-----------------+-----------------------------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_16">給与情報テーブル<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">salary_infomation</span>                                                                                                                                                                     <span class="o">-&gt;</span> <span class="p">(</span><span class="n">employpee_id</span><span class="p">,</span> <span class="n">officer</span><span class="p">,</span> <span class="n">evaluation_monthly_salary_determination_date</span><span class="p">,</span> <span class="n">evaluation_monthly_salary</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="k">VALUES</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1001</span><span class="p">,</span><span class="s1">&#39;営業担当&#39;</span><span class="p">,</span><span class="mi">20190301</span><span class="p">,</span><span class="mi">200000</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1002</span><span class="p">,</span><span class="s1">&#39;リーダー&#39;</span><span class="p">,</span><span class="mi">20190301</span><span class="p">,</span><span class="mi">250000</span><span class="p">),</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1003</span><span class="p">,</span><span class="s1">&#39;係長&#39;</span><span class="p">,</span><span class="mi">20190301</span><span class="p">,</span><span class="mi">300000</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">salary_infomation</span><span class="p">;</span>
+<span class="o">+--------------+--------------+--------------+----------------------------------------------+---------------------------+</span>
+<span class="o">|</span> <span class="n">reference_no</span> <span class="o">|</span> <span class="n">employpee_id</span> <span class="o">|</span> <span class="n">officer</span>      <span class="o">|</span> <span class="n">evaluation_monthly_salary_determination_date</span> <span class="o">|</span> <span class="n">evaluation_monthly_salary</span> <span class="o">|</span>
+<span class="o">+--------------+--------------+--------------+----------------------------------------------+---------------------------+</span>
+<span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span>         <span class="mi">1001</span> <span class="o">|</span> <span class="n">営業担当</span>     <span class="o">|</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">01</span>                                   <span class="o">|</span>                    <span class="mi">200000</span> <span class="o">|</span>
+<span class="o">|</span>            <span class="mi">2</span> <span class="o">|</span>         <span class="mi">1002</span> <span class="o">|</span> <span class="n">リーダー</span>     <span class="o">|</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">01</span>                                   <span class="o">|</span>                    <span class="mi">250000</span> <span class="o">|</span>
+<span class="o">|</span>            <span class="mi">3</span> <span class="o">|</span>         <span class="mi">1003</span> <span class="o">|</span> <span class="n">係長</span>         <span class="o">|</span> <span class="mi">2019</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">01</span>                                   <span class="o">|</span>                    <span class="mi">300000</span> <span class="o">|</span>
+<span class="o">+--------------+--------------+--------------+----------------------------------------------+---------------------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="フッター">
+      
+        
+        <a href="../advanced_settings_for_table_creation/" class="md-footer__link md-footer__link--prev" aria-label="前: テーブル作成の応用設定" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                前
+              </span>
+              テーブル作成の応用設定
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../SQL_data_analysis_know-how/database_restore/" class="md-footer__link md-footer__link--next" aria-label="次: データベースの復元" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                次
+              </span>
+              データベースの復元
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2021 bonji@mikuro.net
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\u3000\u3001\u3002\uff0c\uff0e]+", "search.placeholder": "\u691c\u7d22", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>

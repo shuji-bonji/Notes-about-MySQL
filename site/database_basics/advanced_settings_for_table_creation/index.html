@@ -1,0 +1,1731 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="MySQL学習のメモ書き">
+      
+      
+      
+        <meta name="author" content="Shuji Narumi">
+      
+      
+      <link rel="icon" href="../../images/logo_w.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>テーブル作成の応用設定 - MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="MySQL" class="md-header__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              テーブル作成の応用設定
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="クリア" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MySQL" class="md-nav__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      <label class="md-nav__link" for="__nav_1">
+        データベースの基礎力
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="データベースの基礎力" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          データベースの基礎力
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql_for_the_first_time/" class="md-nav__link">
+        MySQLへの接続
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_and_sql_overview/" class="md-nav__link">
+        データベースとSQLの概要
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_database/" class="md-nav__link">
+        データベースの追加
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_and_update_data/" class="md-nav__link">
+        データの追加と更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          テーブル作成の応用設定
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        テーブル作成の応用設定
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    制約とは
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    キーとは
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    プライマリーキーの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    外部キーの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    ユニークキーの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    ロールバックの活用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    INDEXの追加
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-null" class="md-nav__link">
+    NOT NULLの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    デフォルト値の設定
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_construction_exercise/" class="md-nav__link">
+        データベース構築演習
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        SQLデータ解析ノウハウ
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLデータ解析ノウハウ" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          SQLデータ解析ノウハウ
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/database_restore/" class="md-nav__link">
+        データベースの復元
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/data_extraction_know-how/" class="md-nav__link">
+        データ抽出のノウハウ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/conditional_statement_using_logical_operators/" class="md-nav__link">
+        論理演算子を利用した条件文
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/functions_available_in_sql/" class="md-nav__link">
+        SQLで利用できる関数
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/table_join/" class="md-nav__link">
+        テーブル結合
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_view/" class="md-nav__link">
+        VIEWの活用
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_subqueries/" class="md-nav__link">
+        サブクエリの活用
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        SQLの復習（勘所）
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLの復習（勘所）" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SQLの復習（勘所）
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/data_reference/" class="md-nav__link">
+        データの参照
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/record_update/" class="md-nav__link">
+        レコードの更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/table_operation/" class="md-nav__link">
+        テーブルの操作
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/others/" class="md-nav__link">
+        その他
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        etc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="etc" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          etc
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/about_index/" class="md-nav__link">
+        INDEX
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/char/" class="md-nav__link">
+        文字コードについて
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/environmental_setting/" class="md-nav__link">
+        環境変更
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/practice/" class="md-nav__link">
+        課題
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    制約とは
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    キーとは
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    プライマリーキーの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    外部キーの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    ユニークキーの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    ロールバックの活用
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#index" class="md-nav__link">
+    INDEXの追加
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#not-null" class="md-nav__link">
+    NOT NULLの設定
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    デフォルト値の設定
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">テーブル作成の応用設定<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>テーブル間の関連付けやオプション設定などの詳細なテーブル設定方法を学習します。</p>
+<h2 id="_2">制約とは<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>SQLにおける制約とは、操作上の禁止事項や制限などを指します。</p>
+<ol>
+<li>キーに対する制約<br />
+  プライマリーキーなどのキーに対する制約が設定されている</li>
+<li><code>Null</code>や <code>Not Null</code>に対する制約<br />
+<code>Null</code>や<code>Not Null</code>の設定に応じて、項目に対する入力内容に対して制約が変更されます。</li>
+<li>デフォルト値に対する制約<br />
+  デフォルトで値を設定するといったオプション設定をすることができ、それに応じて入力制約が追加されます。</li>
+</ol>
+<h2 id="_3">キーとは<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>キーの種類</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>プライマリーキー</td>
+<td align="left">テーブルに登録するデータの中で該当レコードを一意に特定することができる列のこと<br>テーブル内に1つだけ設定できる</td>
+</tr>
+<tr>
+<td>外部キー</td>
+<td align="left">関連したテーブル館を結ぶために設定する列のことで、データの関連性と整合性を保証するために利用される</td>
+</tr>
+<tr>
+<td>ユニークキー</td>
+<td align="left">重複した値を許さない列のこと<br>テーブル内で複数設定可能</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_4">プライマリーキーの設定<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>テーブルを作成する際のプライマリーキーの設定と役割について確認します。</p>
+<p><img alt="プライマリーキー" src="../../images/primary_key.svg" /></p>
+<h3 id="_5">プライマリーキーの役割<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>インデックスと呼ばれる情報が自動的に作成されるためテーブルを早く検索することができる</li>
+<li>一意にデータを特定して、重複がないようにテーブルデータの整合性を保証する</li>
+<li>他のテーブル位置いて、外部キーとして設定してもらうことで、そのテーブルとの関連性を設定する</li>
+</ul>
+<h3 id="_6">プライマリーキーの制約<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>PRIMARY KEY</code> 制約を設定したカラムは重複した値を格納することができない。</li>
+<li>必須値になるため<code>NULL</code>値の登録ができず、自動で採番される。</li>
+</ul>
+<h3 id="_7">プライマリーキーの設定<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h4 id="_8">オートインクリメント指定せず、プライマリーキーの設定<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
+<p>プライマリーキーを設定する際に、オートインクリメントを設定していない場合は、プライマリーキーを指定してユニークな値を指定する必要がある。</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">orders</span><span class="p">;</span>
+
+<span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
+
+<span class="n">use</span> <span class="n">orders</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">users</span><span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+    <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">email</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">age</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="k">primary</span> <span class="k">key</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+
+<span class="k">desc</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="n">VALUE</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;smith@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">58</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUE</span><span class="p">(</span><span class="s1">&#39;Akira&#39;</span><span class="p">,</span> <span class="s1">&#39;akira@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">ase</span><span class="p">)</span> <span class="n">VALUE</span><span class="p">(</span><span class="s1">&#39;Liliy&#39;</span><span class="p">,</span> <span class="s1">&#39;liliy@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">);</span>
+
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>ERROR 1364 (HY000): Field &#39;id&#39; doesn&#39;t have a default value
+</code></pre></div>
+<div class="highlight"><pre><span></span><code># id  name  email age
+0 Akira akira@hotmail.com 24
+1 Smith smith@hotmail.com 58
+</code></pre></div>
+<h4 id="_9">オートインクリメント指定して、プライマリーキーの設定<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<p><div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">users</span><span class="p">(</span>
+  <span class="n">id</span> <span class="nb">int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">primary</span> <span class="k">key</span> <span class="n">auto_increment</span><span class="p">,</span>
+    <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">email</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="n">age</span> <span class="nb">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+
+<span class="k">desc</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="n">VALUE</span><span class="p">(</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;smith@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">58</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUE</span><span class="p">(</span><span class="s1">&#39;Akira&#39;</span><span class="p">,</span> <span class="s1">&#39;akira@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUE</span><span class="p">(</span><span class="s1">&#39;Liliy&#39;</span><span class="p">,</span> <span class="s1">&#39;liliy@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">);</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code># id    name    email   age
+1   Smith   smith@hotmail.com   58
+2   akira   akira@hotmail.com   21
+3   Lily    lily@hotmail.com    24
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE `users` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `age` int(3) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1
+</code></pre></div>
+<h2 id="_10">外部キーの設定<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>テーブルを作成する際の外部キーの設定と役割について確認します。</p>
+<p><img alt="" src="../../images/foreign_key.svg" /></p>
+<h3 id="delete">外部キー制約（DELETE）<a class="headerlink" href="#delete" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th align="left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ON DELETE CASCADE</td>
+<td align="left">親テーブル／親レコードを削除するとき、子テーブルの参照しているデータも削除される</td>
+</tr>
+<tr>
+<td>ON DELETE RESTRICT</td>
+<td align="left">親テーブル／親レコードを削除するとき、エラーとなって削除できないようにする</td>
+</tr>
+<tr>
+<td>ON DELETE SET NULL</td>
+<td align="left">親テーブル／親レコードを削除するとき、子テーブルの参照しているデータがNULLとなる</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">実例<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<h4 id="_12">外部キーを設定して、テーブルを作成<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">orders</span><span class="p">(</span>
+    <span class="o">-&gt;</span>   <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">user_id</span> <span class="kt">INT</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">amount</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">user_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">tables</span><span class="p">;</span>
+<span class="o">+------------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_orders</span> <span class="o">|</span>
+<span class="o">+------------------+</span>
+<span class="o">|</span> <span class="n">orders</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">users</span>            <span class="o">|</span>
+<span class="o">+------------------+</span>
+<span class="mi">2</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">desc</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+---------+---------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>   <span class="o">|</span> <span class="k">Type</span>    <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+---------+---------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>      <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">amount</span>  <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+---------+---------+------+-----+---------+-------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">orders</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1100</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+----+---------+--------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+---------+--------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>       <span class="mi">1</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">1100</span> <span class="o">|</span>
+<span class="o">+----+---------+--------+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_13">前準備<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">products</span><span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">category</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.05</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">tables</span><span class="p">;</span>
+<span class="o">+------------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_orders</span> <span class="o">|</span>
+<span class="o">+------------------+</span>
+<span class="o">|</span> <span class="n">orders</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">products</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">users</span>            <span class="o">|</span>
+<span class="o">+------------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">desc</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">orders</span>
+    <span class="o">-&gt;</span> <span class="k">ADD</span> <span class="k">COLUMN</span> <span class="n">product_id</span> <span class="kt">INT</span> <span class="k">AFTER</span> <span class="n">user_id</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.05</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">desc</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+------------+---------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>      <span class="o">|</span> <span class="k">Type</span>    <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+------------+---------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>         <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">user_id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">amount</span>     <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>      <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+------------+---------+------+-----+---------+-------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>       <span class="mi">1</span> <span class="o">|</span>       <span class="no">NULL</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">1100</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_14">外部キーの追加<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">orders</span>
+    <span class="o">-&gt;</span> <span class="k">ADD</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="p">(</span><span class="n">product_id</span><span class="p">)</span> <span class="k">REFERENCES</span> <span class="n">products</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">ON</span> <span class="k">DELETE</span> <span class="k">CASCADE</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.05</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">1</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+------------+---------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>      <span class="o">|</span> <span class="k">Type</span>    <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+------------+---------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>         <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">user_id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">amount</span>     <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>      <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+------------+---------+------+-----+---------+-------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_15">外部キーの効果<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h4>
+<p>ordersテーブルのidはCASCADEにしておく</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">products</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span> <span class="k">VALUES</span> 
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;type1&#39;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;type2&#39;</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;type3&#39;</span><span class="p">,</span> <span class="mi">3000</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----+----------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+----------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">type1</span>    <span class="o">|</span>  <span class="mi">1000</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">type2</span>    <span class="o">|</span>  <span class="mi">2000</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">type3</span>    <span class="o">|</span>  <span class="mi">3000</span> <span class="o">|</span>
+<span class="o">+----+----------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>       <span class="mi">1</span> <span class="o">|</span>       <span class="no">NULL</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">1100</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="k">Empty</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">orders</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+    <span class="o">-&gt;</span>     <span class="k">VALUES</span>
+    <span class="o">-&gt;</span>         <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2000</span><span class="p">),</span>
+    <span class="o">-&gt;</span>         <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4000</span><span class="p">),</span>
+    <span class="o">-&gt;</span>         <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9000</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>       <span class="mi">1</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">2000</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span>       <span class="mi">1</span> <span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">4000</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>       <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>  <span class="mi">9000</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Liliy</span> <span class="o">|</span> <span class="n">liliy</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">UPDATE</span> <span class="n">users</span> <span class="k">SET</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="k">Rows</span> <span class="n">matched</span><span class="o">:</span> <span class="mi">1</span>  <span class="k">Changed</span><span class="o">:</span> <span class="mi">1</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Liliy</span> <span class="o">|</span> <span class="n">liliy</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>       <span class="mi">5</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">2000</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span>       <span class="mi">5</span> <span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>  <span class="mi">4000</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>       <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>  <span class="mi">9000</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">users</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Liliy</span> <span class="o">|</span> <span class="n">liliy</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">2</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">orders</span><span class="p">;</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">user_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span>       <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>  <span class="mi">9000</span> <span class="o">|</span>
+<span class="o">+----+---------+------------+--------+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_16">外部キーの削除<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">orders</span>
+    <span class="o">-&gt;</span>      <span class="k">DROP</span> <span class="k">FOREIGN</span> <span class="k">KEY</span> <span class="n">orders_ibfk_2</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+</code></pre></div>
+<h2 id="_17">ユニークキーの設定<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<p>テーブルを作成する際のユニークキーの設定と役割について確認します。</p>
+<p><img alt="" src="../../images/unique_key.svg" /></p>
+<h3 id="_18">実例<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<h4 id="_19">前処理として、データベースの作成<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">databases</span><span class="p">;</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="k">Database</span>           <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="n">information_schema</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">innodb</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">mysql</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">performance_schema</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">sys</span>                <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">orders</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">use</span> <span class="n">orders</span><span class="p">;</span>
+<span class="k">Database</span> <span class="k">changed</span>
+</code></pre></div>
+<h4 id="_20">ユニークキーを設定したテーブルの作成<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">users</span>
+    <span class="o">-&gt;</span> <span class="p">(</span>
+    <span class="o">-&gt;</span> 
+<span class="n">Display</span> <span class="k">all</span> <span class="mi">758</span> <span class="n">possibilities</span><span class="nv">?</span> <span class="p">(</span><span class="n">y</span> <span class="k">or</span> <span class="n">n</span><span class="p">)</span> 
+    <span class="o">-&gt;</span> <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="k">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="o">-&gt;</span>         <span class="k">name</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="o">-&gt;</span>         <span class="n">email</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span>
+    <span class="o">-&gt;</span>         <span class="n">age</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+    <span class="o">-&gt;</span>         <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
+    <span class="o">-&gt;</span>         <span class="k">UNIQUE</span> <span class="k">KEY</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.04</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">tables</span><span class="p">;</span>
+<span class="o">+------------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_orders</span> <span class="o">|</span>
+<span class="o">+------------------+</span>
+<span class="o">|</span> <span class="n">users</span>            <span class="o">|</span>
+<span class="o">+------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">UNI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_21">データの挿入<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="k">VALUES</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;smith@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">58</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Akira&#39;</span><span class="p">,</span> <span class="s1">&#39;akira@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Lily&#39;</span><span class="p">,</span>  <span class="s1">&#39;lily@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_22">重複データを挿入<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h4>
+<p>ユニークキーに設定されたカラムの値が重複した値のレコードを挿入してみる。</p>
+<p><div class="highlight"><pre><span></span><code>mysql&gt; INSERT INTO users(id, name, email, age) VALUES
+    -&gt; (4, &#39;Smith&#39;, &#39;smith@hotmail.com&#39;, 34);
+ERROR 1062 (23000): Duplicate entry &#39;smith@hotmail.com&#39; for key &#39;email&#39;
+mysql&gt; 
+</code></pre></div>
+エラーとなります。</p>
+<h4 id="_23">ユニークキーの削除<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h4>
+<p>ユニークキーの削除をこなうと、重複したデータの挿入が可能になります。</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">UNI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="k">VALUES</span>
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;smith@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">34</span><span class="p">);</span>
+<span class="k">ERROR</span> <span class="mi">1062</span> <span class="p">(</span><span class="mi">23000</span><span class="p">)</span><span class="o">:</span> <span class="k">Duplicate</span> <span class="n">entry</span> <span class="s1">&#39;smith@hotmail.com&#39;</span> <span class="k">for</span> <span class="k">key</span> <span class="s1">&#39;email&#39;</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">users</span> <span class="k">DROP</span> <span class="k">INDEX</span> <span class="n">email</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;smith@hotmail.com&#39;</span><span class="p">,</span> <span class="mi">34</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_24">ロールバックの活用<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h2>
+<p>作成したテーブルを<code>UPDATE</code>するなど変更を加える際に、ロールバックスを利用する方法を解説します。</p>
+<h3 id="mysql-workbench">MySQL WorkBench でオートコミットの解除<a class="headerlink" href="#mysql-workbench" title="Permanent link">&para;</a></h3>
+<p>MySQL WorkBenchでは、自動コミットが設定されています。<br />
+まずは、これらの解除を行います。</p>
+<div class="highlight"><pre><span></span><code><span class="k">SET</span> <span class="n">autocommit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+<p>コンソール上からでも同じです。</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SET</span> <span class="n">autocommit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="start-transaction">まずは、START TRANSACTION<a class="headerlink" href="#start-transaction" title="Permanent link">&para;</a></h3>
+<p>ロールバックを行う可能性のある一連の更新を行う場合は、いつでもロールバックすることができるように、<code>START TRANSACTION</code>を実行する。</p>
+<h3 id="commit">COMMITの利用<a class="headerlink" href="#commit" title="Permanent link">&para;</a></h3>
+<p>現在のトランザクションを確定します。</p>
+<p>COMMITすると、トランザクションを既に確定しているので、ROLLBACKできません。</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">START</span> <span class="k">TRANSACTION</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">UPDATE</span> <span class="n">users</span> <span class="k">SET</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+<span class="k">Rows</span> <span class="n">matched</span><span class="o">:</span> <span class="mi">1</span>  <span class="k">Changed</span><span class="o">:</span> <span class="mi">1</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">COMMIT</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ROLLBACK</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="rollback">ROLLBACKの利用<a class="headerlink" href="#rollback" title="Permanent link">&para;</a></h3>
+<p>現在のトランザクションを取り消します。</p>
+<p>COMMITする前なら、ROLLBACKできます。</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">START</span> <span class="k">TRANSACTION</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">UPDATE</span> <span class="n">users</span> <span class="k">SET</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">5</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="k">Rows</span> <span class="n">matched</span><span class="o">:</span> <span class="mi">1</span>  <span class="k">Changed</span><span class="o">:</span> <span class="mi">1</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ROLLBACK</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="n">email</span>             <span class="o">|</span> <span class="n">age</span>  <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">58</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Akira</span> <span class="o">|</span> <span class="n">akira</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">24</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Lily</span>  <span class="o">|</span> <span class="n">lily</span><span class="nv">@hotmail.com</span>  <span class="o">|</span>   <span class="mi">21</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Smith</span> <span class="o">|</span> <span class="n">smith</span><span class="nv">@hotmail.com</span> <span class="o">|</span>   <span class="mi">34</span> <span class="o">|</span>
+<span class="o">+----+-------+-------------------+------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="index">INDEXの追加<a class="headerlink" href="#index" title="Permanent link">&para;</a></h2>
+<p>効率的な検索に利用する<code>INDEX</code>の設定方法と、その使い勝手を確認します。</p>
+<h3 id="index_1">INDEXの追加<a class="headerlink" href="#index_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">INDEX</span> <span class="n">index_name</span> <span class="k">ON</span> <span class="n">users</span><span class="p">(</span><span class="k">name</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">index</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="k">Table</span> <span class="o">|</span> <span class="n">Non_unique</span> <span class="o">|</span> <span class="n">Key_name</span>   <span class="o">|</span> <span class="n">Seq_in_index</span> <span class="o">|</span> <span class="k">Column_name</span> <span class="o">|</span> <span class="k">Collation</span> <span class="o">|</span> <span class="n">Cardinality</span> <span class="o">|</span> <span class="n">Sub_part</span> <span class="o">|</span> <span class="n">Packed</span> <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="n">Index_type</span> <span class="o">|</span> <span class="k">Comment</span> <span class="o">|</span> <span class="n">Index_comment</span> <span class="o">|</span>
+<span class="o">+-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="n">users</span> <span class="o">|</span>          <span class="mi">0</span> <span class="o">|</span> <span class="k">PRIMARY</span>    <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="n">id</span>          <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">4</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span>      <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">users</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span> <span class="n">index_name</span> <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="k">name</span>        <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">3</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">+-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="mi">2</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="index_2">INDEXの削除<a class="headerlink" href="#index_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="n">MUL</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">index</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="k">Table</span> <span class="o">|</span> <span class="n">Non_unique</span> <span class="o">|</span> <span class="n">Key_name</span>   <span class="o">|</span> <span class="n">Seq_in_index</span> <span class="o">|</span> <span class="k">Column_name</span> <span class="o">|</span> <span class="k">Collation</span> <span class="o">|</span> <span class="n">Cardinality</span> <span class="o">|</span> <span class="n">Sub_part</span> <span class="o">|</span> <span class="n">Packed</span> <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="n">Index_type</span> <span class="o">|</span> <span class="k">Comment</span> <span class="o">|</span> <span class="n">Index_comment</span> <span class="o">|</span>
+<span class="o">+-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="n">users</span> <span class="o">|</span>          <span class="mi">0</span> <span class="o">|</span> <span class="k">PRIMARY</span>    <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="n">id</span>          <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">4</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span>      <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">users</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span> <span class="n">index_name</span> <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="k">name</span>        <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">3</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">+-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="mi">2</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DROP</span> <span class="k">INDEX</span> <span class="n">index_name</span> <span class="k">ON</span> <span class="n">users</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">index</span> <span class="k">from</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="k">Table</span> <span class="o">|</span> <span class="n">Non_unique</span> <span class="o">|</span> <span class="n">Key_name</span> <span class="o">|</span> <span class="n">Seq_in_index</span> <span class="o">|</span> <span class="k">Column_name</span> <span class="o">|</span> <span class="k">Collation</span> <span class="o">|</span> <span class="n">Cardinality</span> <span class="o">|</span> <span class="n">Sub_part</span> <span class="o">|</span> <span class="n">Packed</span> <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="n">Index_type</span> <span class="o">|</span> <span class="k">Comment</span> <span class="o">|</span> <span class="n">Index_comment</span> <span class="o">|</span>
+<span class="o">+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="o">|</span> <span class="n">users</span> <span class="o">|</span>          <span class="mi">0</span> <span class="o">|</span> <span class="k">PRIMARY</span>  <span class="o">|</span>            <span class="mi">1</span> <span class="o">|</span> <span class="n">id</span>          <span class="o">|</span> <span class="n">A</span>         <span class="o">|</span>           <span class="mi">4</span> <span class="o">|</span>     <span class="no">NULL</span> <span class="o">|</span> <span class="no">NULL</span>   <span class="o">|</span>      <span class="o">|</span> <span class="k">BTREE</span>      <span class="o">|</span>         <span class="o">|</span>               <span class="o">|</span>
+<span class="o">+-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span> <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>  <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">email</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">age</span>   <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+-------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="not-null">NOT NULLの設定<a class="headerlink" href="#not-null" title="Permanent link">&para;</a></h2>
+<p>データにおける<code>NOT NULL</code>の設定方法と、その使い勝手を確認します。</p>
+<h3 id="not-null_1">NOT NULL と キー<a class="headerlink" href="#not-null_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>プライマリーキー</th>
+<th>ユニークキー</th>
+<th>外部キー</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NOT NULL<br>制約の有無</td>
+<td>あり</td>
+<td>なし</td>
+<td>なし</td>
+</tr>
+</tbody>
+</table>
+<h3 id="not-null_2">NOT NULLを設定したフィールドを持つテーブルの作成<a class="headerlink" href="#not-null_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">products</span>
+    <span class="o">-&gt;</span> <span class="p">(</span>
+    <span class="o">-&gt;</span>     <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">category</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">ERROR</span> <span class="mi">2013</span> <span class="p">(</span><span class="n">HY000</span><span class="p">)</span><span class="o">:</span> <span class="n">Lost</span> <span class="k">connection</span> <span class="k">to</span> <span class="n">MySQL</span> <span class="k">server</span> <span class="n">during</span> <span class="k">query</span>
+<span class="k">No</span> <span class="k">connection</span><span class="p">.</span> <span class="n">Trying</span> <span class="k">to</span> <span class="n">reconnect</span><span class="p">...</span>
+<span class="k">Connection</span> <span class="n">id</span><span class="o">:</span>    <span class="mi">880</span>
+<span class="k">Current</span> <span class="k">database</span><span class="o">:</span> <span class="n">orders</span>
+
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.15</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="not-null_3">NOT NULLの制約を外す<a class="headerlink" href="#not-null_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">products</span> <span class="k">MODIFY</span> <span class="k">COLUMN</span> <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.04</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="not-null_4">NOT NULLの制約を設定<a class="headerlink" href="#not-null_4" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">products</span> <span class="k">MODIFY</span> <span class="k">COLUMN</span> <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.04</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+---------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="not-null_5">NOT NULLの制約を確認<a class="headerlink" href="#not-null_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">products</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----+----------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+----------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>          <span class="o">|</span>  <span class="mi">1000</span> <span class="o">|</span>
+<span class="o">+----+----------+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">products</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="no">NULL</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="k">ERROR</span> <span class="mi">1048</span> <span class="p">(</span><span class="mi">23000</span><span class="p">)</span><span class="o">:</span> <span class="k">Column</span> <span class="s1">&#39;category&#39;</span> <span class="n">cannot</span> <span class="n">be</span> <span class="no">null</span>
+</code></pre></div>
+<h2 id="_25">デフォルト値の設定<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h2>
+<p>データにおけるデフォルト値の設定方法と、その使い勝手の確認します。</p>
+<p>空白でデータが挿入されたときに、初期値として設定される値を前もって設定できる。</p>
+<h3 id="_26">デフォルト値を設定したフィールドを持つテーブルの作成<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">products</span><span class="p">(</span>
+    <span class="o">-&gt;</span>     <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">category</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="s1">&#39;Not Categorrized&#39;</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>          <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="k">Not</span> <span class="n">Categorrized</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="mi">0</span>                <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_27">デフォルト値をフィールドから削除<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>          <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="k">Not</span> <span class="n">Categorrized</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="mi">0</span>                <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">products</span> <span class="k">MODIFY</span> <span class="k">COLUMN</span> <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>          <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="k">Not</span> <span class="n">Categorrized</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_28">デフォルト値をフィールドに設定<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>          <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="k">Not</span> <span class="n">Categorrized</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">ALTER</span> <span class="k">TABLE</span> <span class="n">products</span> <span class="k">MODIFY</span> <span class="k">COLUMN</span> <span class="n">price</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">0</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>    <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>          <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>       <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>             <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">category</span> <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="k">Not</span> <span class="n">Categorrized</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">price</span>    <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>      <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="mi">0</span>                <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+----------+--------------+------+-----+------------------+-------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> 
+</code></pre></div>
+<h3 id="_29">デフォルト値が自動で挿入されること確認<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">products</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.09</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----+------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">category</span>         <span class="o">|</span> <span class="n">price</span> <span class="o">|</span>
+<span class="o">+----+------------------+-------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="k">Not</span> <span class="n">Categorrized</span> <span class="o">|</span>     <span class="mi">0</span> <span class="o">|</span>
+<span class="o">+----+------------------+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="フッター">
+      
+        
+        <a href="../add_and_update_data/" class="md-footer__link md-footer__link--prev" aria-label="前: データの追加と更新" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                前
+              </span>
+              データの追加と更新
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../database_construction_exercise/" class="md-footer__link md-footer__link--next" aria-label="次: データベース構築演習" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                次
+              </span>
+              データベース構築演習
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2021 bonji@mikuro.net
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\u3000\u3001\u3002\uff0c\uff0e]+", "search.placeholder": "\u691c\u7d22", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>

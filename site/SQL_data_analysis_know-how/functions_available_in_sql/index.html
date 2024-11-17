@@ -1,0 +1,2010 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="MySQL学習のメモ書き">
+      
+      
+      
+        <meta name="author" content="Shuji Narumi">
+      
+      
+      <link rel="icon" href="../../images/logo_w.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>SQLで利用できる関数 - MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sql" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="MySQL" class="md-header__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SQLで利用できる関数
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="クリア" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MySQL" class="md-nav__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        データベースの基礎力
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="データベースの基礎力" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          データベースの基礎力
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/mysql_for_the_first_time/" class="md-nav__link">
+        MySQLへの接続
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/database_and_sql_overview/" class="md-nav__link">
+        データベースとSQLの概要
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/add_database/" class="md-nav__link">
+        データベースの追加
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/add_and_update_data/" class="md-nav__link">
+        データの追加と更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/advanced_settings_for_table_creation/" class="md-nav__link">
+        テーブル作成の応用設定
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/database_construction_exercise/" class="md-nav__link">
+        データベース構築演習
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        SQLデータ解析ノウハウ
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLデータ解析ノウハウ" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          SQLデータ解析ノウハウ
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_restore/" class="md-nav__link">
+        データベースの復元
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_extraction_know-how/" class="md-nav__link">
+        データ抽出のノウハウ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conditional_statement_using_logical_operators/" class="md-nav__link">
+        論理演算子を利用した条件文
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          SQLで利用できる関数
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        SQLで利用できる関数
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    基本的な演算式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    集計関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    文字列に関する関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    日付と時刻に関する関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    その他の関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    演習
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../table_join/" class="md-nav__link">
+        テーブル結合
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilization_of_view/" class="md-nav__link">
+        VIEWの活用
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilization_of_subqueries/" class="md-nav__link">
+        サブクエリの活用
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        SQLの復習（勘所）
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLの復習（勘所）" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SQLの復習（勘所）
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/data_reference/" class="md-nav__link">
+        データの参照
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/record_update/" class="md-nav__link">
+        レコードの更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/table_operation/" class="md-nav__link">
+        テーブルの操作
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/others/" class="md-nav__link">
+        その他
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        etc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="etc" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          etc
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/about_index/" class="md-nav__link">
+        INDEX
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/char/" class="md-nav__link">
+        文字コードについて
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/environmental_setting/" class="md-nav__link">
+        環境変更
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/practice/" class="md-nav__link">
+        課題
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    基本的な演算式
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    集計関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    文字列に関する関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    日付と時刻に関する関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    その他の関数
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    演習
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="sql">SQLで利用できる関数<a class="headerlink" href="#sql" title="Permanent link">&para;</a></h1>
+<p>数値計算や合計値の算出などの簡単な演算や統計を実施する方法を学習します。</p>
+<h2 id="_1">基本的な演算式<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="_2">四則演算<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code> の計算</li>
+<li><code>DIV</code><br />
+<code>A DIV B</code>: AからBで割った整数のみを表示</li>
+<li><code>MOD</code><br />
+<code>A MOD B</code>: AからBで割った余りを表示<code>%</code>と同じ</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+-------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="o">|</span>     <span class="mi">3</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+-------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="o">|</span>    <span class="o">-</span><span class="mi">1</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+-------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="o">|</span>     <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+--------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span>  <span class="o">|</span>
+<span class="o">+--------+</span>
+<span class="o">|</span> <span class="mf">0.5000</span> <span class="o">|</span>
+<span class="o">+--------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="k">DIV</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+---------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="k">DIV</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+---------+</span>
+<span class="o">|</span>       <span class="mi">0</span> <span class="o">|</span>
+<span class="o">+---------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="o">%</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+-------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="o">|</span>     <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+-------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="mi">1</span> <span class="k">MOD</span> <span class="mi">2</span><span class="p">;</span>
+<span class="o">+---------+</span>
+<span class="o">|</span> <span class="mi">1</span> <span class="k">MOD</span> <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+---------+</span>
+<span class="o">|</span>       <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+---------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">id</span> <span class="o">+</span> <span class="n">order_id</span> <span class="k">AS</span> <span class="n">sum_id</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+----+----------+--------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">order_id</span> <span class="o">|</span> <span class="n">sum_id</span> <span class="o">|</span>
+<span class="o">+----+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span>        <span class="mi">4</span> <span class="o">|</span>     <span class="mi">13</span> <span class="o">|</span>
+<span class="o">+----+----------+--------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">order_id</span><span class="p">,</span> <span class="n">id</span> <span class="k">MOD</span> <span class="n">order_id</span> <span class="k">AS</span> <span class="n">sum_id</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+----+----------+--------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">order_id</span> <span class="o">|</span> <span class="n">sum_id</span> <span class="o">|</span>
+<span class="o">+----+----------+--------+</span>
+<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span>        <span class="mi">4</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+----+----------+--------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="_3">数値に関する基本関数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>ABS()<br />
+<code>ABS(A)</code>: Aの絶対値を算出する</li>
+<li>ROUND()<br />
+<code>ROUND(A)</code>: Aを四捨五入する</li>
+<li>CEILING<br />
+<code>CEILING(A)</code>: A以上の最小の整数を取得する</li>
+<li>FLOOR<br />
+<code>FLOOR(A)</code>: A以下の最大の整数を取得する</li>
+<li>TRANCATE<br />
+<code>TRANCATE(A,2</code>: Xを小数点2桁の位置で切り捨てた値を取得する</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">ABS</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">);</span>
+<span class="o">+----------+</span>
+<span class="o">|</span> <span class="nf">ABS</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----------+</span>
+<span class="o">|</span>       <span class="mi">10</span> <span class="o">|</span>
+<span class="o">+----------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">ABS</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="o">+---------+</span>
+<span class="o">|</span> <span class="nf">ABS</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------+</span>
+<span class="o">|</span>      <span class="mi">10</span> <span class="o">|</span>
+<span class="o">+---------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">ROUND</span><span class="p">(</span><span class="mf">2.4</span><span class="p">);</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="nf">ROUND</span><span class="p">(</span><span class="mf">2.4</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CEILING</span><span class="p">(</span><span class="mf">2.4</span><span class="p">);</span>
+<span class="o">+--------------+</span>
+<span class="o">|</span> <span class="nf">CEILING</span><span class="p">(</span><span class="mf">2.4</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------+</span>
+<span class="o">|</span>            <span class="mi">3</span> <span class="o">|</span>
+<span class="o">+--------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">FLOOR</span><span class="p">(</span><span class="mf">2.4</span><span class="p">);</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="nf">FLOOR</span><span class="p">(</span><span class="mf">2.4</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">TRUNCATE</span><span class="p">(</span><span class="mf">1.0384</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="k">TRUNCATE</span><span class="p">(</span><span class="mf">1.0384</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>                <span class="mf">1.03</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_4">集計関数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ul>
+<li>COUNT<br />
+<code>OUCNT(指定列)</code>: 範囲列内のデータ数を算出</li>
+<li>SUM<br />
+<code>SUM(指定列)</code>: 指定列内データの合計を算出 </li>
+<li>AVG<br />
+<code>AVG(指定列)</code>: 指定列内データの平均を算出</li>
+<li>MIN<br />
+<code>MIN(指定列)</code>: 指定列内データの最小値を算出</li>
+<li>MAX<br />
+<code>MAX(指定列)</code>: 指定列内データの最大値を算出</li>
+</ul>
+<h3 id="count">COUNT<a class="headerlink" href="#count" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+-----+----------+------------+--------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span>  <span class="o">|</span> <span class="n">order_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+-----+----------+------------+--------+----------------------------+----------------------------+</span>
+<span class="o">|</span>   <span class="mi">9</span> <span class="o">|</span>        <span class="mi">4</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.726347</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.726347</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">18</span> <span class="o">|</span>        <span class="mi">7</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.761660</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.761660</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">27</span> <span class="o">|</span>       <span class="mi">10</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.793428</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.793428</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">36</span> <span class="o">|</span>       <span class="mi">14</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.826522</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.826522</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">45</span> <span class="o">|</span>       <span class="mi">19</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.872849</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.872849</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">54</span> <span class="o">|</span>       <span class="mi">22</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.907436</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.907436</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">63</span> <span class="o">|</span>       <span class="mi">28</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.947244</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.947244</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">72</span> <span class="o">|</span>       <span class="mi">32</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.987965</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.987965</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">81</span> <span class="o">|</span>       <span class="mi">36</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">59.037903</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">59.037903</span> <span class="o">|</span>
+<span class="p">.....</span>
+<span class="o">|</span> <span class="mi">522</span> <span class="o">|</span>      <span class="mi">261</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">00.920988</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">00.920988</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">531</span> <span class="o">|</span>      <span class="mi">265</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">00.960367</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">00.960367</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">540</span> <span class="o">|</span>      <span class="mi">273</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.010080</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.010080</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">549</span> <span class="o">|</span>      <span class="mi">277</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.057458</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.057458</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">558</span> <span class="o">|</span>      <span class="mi">280</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.088610</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.088610</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">567</span> <span class="o">|</span>      <span class="mi">284</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.120321</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.120321</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">576</span> <span class="o">|</span>      <span class="mi">290</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.158766</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.158766</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">585</span> <span class="o">|</span>      <span class="mi">293</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.201492</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.201492</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">594</span> <span class="o">|</span>      <span class="mi">297</span> <span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.233840</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mf">01.233840</span> <span class="o">|</span>
+<span class="o">+-----+----------+------------+--------+----------------------------+----------------------------+</span>
+<span class="mi">66</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">COUNT</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+---------------+</span>
+<span class="o">|</span> <span class="nf">COUNT</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------+</span>
+<span class="o">|</span>            <span class="mi">66</span> <span class="o">|</span>
+<span class="o">+---------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">amount</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+------------------------+</span>
+<span class="o">|</span> <span class="nf">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span> <span class="n">amount</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+------------------------+</span>
+<span class="o">|</span>                      <span class="mi">3</span> <span class="o">|</span>
+<span class="o">+------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">amount</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">amount</span><span class="p">;</span>
+<span class="o">+--------+</span>
+<span class="o">|</span> <span class="n">amount</span> <span class="o">|</span>
+<span class="o">+--------+</span>
+<span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span>
+<span class="o">|</span>      <span class="mi">3</span> <span class="o">|</span>
+<span class="o">+--------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="sum">SUM<a class="headerlink" href="#sum" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span>         <span class="mi">136</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">amount</span><span class="p">;</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span>          <span class="mi">20</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">44</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">72</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="avg">AVG<a class="headerlink" href="#avg" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span> <span class="k">AVG</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span>      <span class="mf">2.0606</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_amount</span><span class="p">,</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sum_amount</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span> <span class="n">avg_amount</span> <span class="o">|</span> <span class="n">sum_amount</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span>     <span class="mf">2.0606</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">AVG</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_amount</span><span class="p">,</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sum_amount</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">WHERE</span> <span class="n">product_id</span> <span class="o">=</span> <span class="mi">9</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">amount</span><span class="p">;</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span> <span class="n">avg_amount</span> <span class="o">|</span> <span class="n">sum_amount</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span>     <span class="mf">1.0000</span> <span class="o">|</span>         <span class="mi">20</span> <span class="o">|</span>
+<span class="o">|</span>     <span class="mf">2.0000</span> <span class="o">|</span>         <span class="mi">44</span> <span class="o">|</span>
+<span class="o">|</span>     <span class="mf">3.0000</span> <span class="o">|</span>         <span class="mi">72</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="max">MAX<a class="headerlink" href="#max" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">MAX</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="nf">MAX</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="o">|</span>        <span class="mi">698</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="nf">MAX</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----+--------------+------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>         <span class="o">|</span> <span class="nf">MAX</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----+--------------+------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Water</span> <span class="n">cooker</span> <span class="o">|</span>        <span class="mi">698</span> <span class="o">|</span>
+<span class="o">+----+--------------+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span> <span class="k">WHERE</span> <span class="n">price</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="nf">MAX</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">);</span>
+<span class="o">+----+--------------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>         <span class="o">|</span> <span class="n">price</span> <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+----+--------------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Refrigerator</span> <span class="o">|</span>   <span class="mi">698</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.210542</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.210542</span> <span class="o">|</span>
+<span class="o">+----+--------------+-------+----------------------------+----------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">price</span> <span class="k">DESC</span> <span class="k">LIMIT</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">+----+--------------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>         <span class="o">|</span> <span class="n">price</span> <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+----+--------------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Refrigerator</span> <span class="o">|</span>   <span class="mi">698</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.210542</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.210542</span> <span class="o">|</span>
+<span class="o">+----+--------------+-------+----------------------------+----------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="min">MIN<a class="headerlink" href="#min" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="nf">MIN</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">;</span>
+<span class="o">+----+--------------+------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>         <span class="o">|</span> <span class="nf">MIN</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----+--------------+------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Water</span> <span class="n">cooker</span> <span class="o">|</span>          <span class="mi">5</span> <span class="o">|</span>
+<span class="o">+----+--------------+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span> <span class="k">WHERE</span> <span class="n">price</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span> <span class="nf">MIN</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">products</span><span class="p">);</span>
+<span class="o">+----+-----------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>      <span class="o">|</span> <span class="n">price</span> <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+----+-----------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span> <span class="n">Mousetrap</span> <span class="o">|</span>     <span class="mi">5</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.216274</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.216274</span> <span class="o">|</span>
+<span class="o">+----+-----------+-------+----------------------------+----------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">products</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">price</span> <span class="k">LIMIT</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">+----+-----------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>      <span class="o">|</span> <span class="n">price</span> <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+----+-----------+-------+----------------------------+----------------------------+</span>
+<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span> <span class="n">Mousetrap</span> <span class="o">|</span>     <span class="mi">5</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.216274</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.216274</span> <span class="o">|</span>
+<span class="o">+----+-----------+-------+----------------------------+----------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_5">文字列に関する関数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>CONCAT<br />
+<code>CONCAT('A', 'B')</code>: 文字列AとBを連結する </li>
+<li>LOWER<br />
+<code>LOWER('AAA')</code>: 文字列AAAを全て小文字にする</li>
+<li>UPPER<br />
+<code>UPPER('aaa')</code>: 文字列aaaを全て大文字にする</li>
+<li>REPLACE<br />
+<code>REPLACE('abc', 'a', 'A')</code>: 文字列abcのaをAに置き換える </li>
+<li>INSERT<br />
+<code>INSERT('abcde', 1, 2, 'xy')</code>: 文字列abcdeの1文字から2文字目をxyに置き換える </li>
+<li>LPAD<br />
+<code>LPAD('ab', 6, 'A')</code>: 文字列abが6文字になるように左側をAで埋める</li>
+<li>RPAD<br />
+<code>RPAD('ab', 6, 'A')</code>: 文字列abが6文字になるように右側をAで埋める</li>
+<li>REPEAT<br />
+<code>REPEAT('OK',5)</code>: 文字列OKを5回繰り返す </li>
+<li>LEFT<br />
+<code>LEFT('aaaa', 3)</code>: 文字列aaaaの中から指定した3文字だけ左から取得する</li>
+<li>RIGHT<br />
+<code>RIGHT('aaaa', 3)</code>: 文字列aaaaの中から指定した3文字だけ右から取得する</li>
+<li>SUBSTRING<br />
+<code>SUBSTRING('aaaa', 2, 3)</code>: 文字列aaaaの中から、２文字目から3文字を取得する </li>
+<li>SUBSTRING_INDEX<br />
+<code>SUBSTRING_INDEX('ab.cs.html', '.', '2')</code>: 文字列ab.cd.htmlの中から、. が2番目に出てきた時点から、前の文字を取得する</li>
+<li>TRIM<br />
+<code>TRIM(' ABC')</code>: 文字列' ABC'から空白を除去する</li>
+<li>SPACE<br />
+<code>SPACE(5)</code>: スペースを５バイト分取得する</li>
+<li>LENGTH<br />
+<code>LENGTH('A')</code>: 文字列Aの文字数（バイト数）を数える</li>
+<li>CHAR_LENGTH<br />
+<code>CHAR_LENGTH('A')</code>: 文字列Aの文字数単位で数える</li>
+</ul>
+<h3 id="concat">CONCAT<a class="headerlink" href="#concat" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CONCAT</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">);</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="nf">CONCAT</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="n">ABC</span>                   <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CONCAT</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">);</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="nf">CONCAT</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="n">A</span> <span class="n">C</span>                   <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CONCAT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">birthday</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="nf">CONCAT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">birthday</span><span class="p">)</span>      <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="n">Erin</span> <span class="n">Casper</span> <span class="mi">1976</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">20</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">Sudie</span> <span class="n">Waelchi</span> <span class="mi">1999</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span>        <span class="o">|</span>
+<span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span> <span class="mi">2002</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">09</span>   <span class="o">|</span>
+<span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span> <span class="mi">1994</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span>        <span class="o">|</span>
+<span class="o">|</span> <span class="n">Golden</span> <span class="n">Kunde</span> <span class="mi">1998</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">02</span>         <span class="o">|</span>
+<span class="p">....</span>
+<span class="o">|</span> <span class="n">Augustine</span> <span class="n">Cassin</span> <span class="mi">1997</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">08</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="n">Velva</span> <span class="n">Nolan</span> <span class="mi">2001</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">26</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">Maurice</span> <span class="n">Koss</span> <span class="mi">1987</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">Domingo</span> <span class="n">Herman</span> <span class="mi">1981</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">28</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">Barton</span> <span class="n">Stracke</span> <span class="mi">1995</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">24</span>       <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="lower">LOWER<a class="headerlink" href="#lower" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">LOWER</span><span class="p">(</span><span class="s1">&#39;AAA&#39;</span><span class="p">);</span>
+<span class="o">+--------------+</span>
+<span class="o">|</span> <span class="nf">LOWER</span><span class="p">(</span><span class="s1">&#39;AAA&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------+</span>
+<span class="o">|</span> <span class="n">aaa</span>          <span class="o">|</span>
+<span class="o">+--------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">LOWER</span><span class="p">(</span><span class="k">name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----------------------+</span>
+<span class="o">|</span> <span class="nf">LOWER</span><span class="p">(</span><span class="k">name</span><span class="p">)</span>          <span class="o">|</span>
+<span class="o">+----------------------+</span>
+<span class="o">|</span> <span class="n">erin</span> <span class="n">casper</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">sudie</span> <span class="n">waelchi</span>        <span class="o">|</span>
+<span class="o">|</span> <span class="n">desire</span> <span class="n">osinski</span> <span class="n">sr</span><span class="p">.</span>   <span class="o">|</span>
+<span class="p">......</span>
+<span class="o">|</span> <span class="n">pablo</span> <span class="n">huels</span> <span class="n">jr</span><span class="p">.</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">leonardo</span> <span class="n">turner</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">augustine</span> <span class="n">cassin</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="n">velva</span> <span class="n">nolan</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">maurice</span> <span class="n">koss</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">domingo</span> <span class="n">herman</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">barton</span> <span class="n">stracke</span>       <span class="o">|</span>
+<span class="o">+----------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="upper">UPPER<a class="headerlink" href="#upper" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">UPPER</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">);</span>
+<span class="o">+--------------+</span>
+<span class="o">|</span> <span class="nf">UPPER</span><span class="p">(</span><span class="s1">&#39;aaa&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------+</span>
+<span class="o">|</span> <span class="n">AAA</span>          <span class="o">|</span>
+<span class="o">+--------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">UPPER</span><span class="p">(</span><span class="k">name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----------------------+</span>
+<span class="o">|</span> <span class="nf">UPPER</span><span class="p">(</span><span class="k">name</span><span class="p">)</span>          <span class="o">|</span>
+<span class="o">+----------------------+</span>
+<span class="o">|</span> <span class="n">ERIN</span> <span class="n">CASPER</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">SUDIE</span> <span class="n">WAELCHI</span>        <span class="o">|</span>
+<span class="o">|</span> <span class="n">DESIRE</span> <span class="n">OSINSKI</span> <span class="n">SR</span><span class="p">.</span>   
+<span class="o">|</span><span class="p">...</span>
+<span class="o">|</span> <span class="n">VELVA</span> <span class="n">NOLAN</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">MAURICE</span> <span class="n">KOSS</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">DOMINGO</span> <span class="n">HERMAN</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">BARTON</span> <span class="n">STRACKE</span>       <span class="o">|</span>
+<span class="o">+----------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="reprace">REPRACE<a class="headerlink" href="#reprace" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">REPLACE</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">);</span>
+<span class="o">+--------------------------+</span>
+<span class="o">|</span> <span class="k">REPLACE</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------------+</span>
+<span class="o">|</span> <span class="n">Abc</span>                      <span class="o">|</span>
+<span class="o">+--------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">REPLACE</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span> <span class="k">REPLACE</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span> <span class="n">Erin</span> <span class="n">CAsper</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">Sudie</span> <span class="n">WAelchi</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>      <span class="o">|</span>
+<span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">Golden</span> <span class="n">Kunde</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">ThAddeus</span> <span class="n">Ledner</span>         <span class="o">|</span>
+<span class="p">....</span>
+<span class="o">|</span> <span class="n">PAblo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">LeonArdo</span> <span class="n">Turner</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">Augustine</span> <span class="n">CAssin</span>        <span class="o">|</span>
+<span class="o">|</span> <span class="n">VelvA</span> <span class="n">NolAn</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">MAurice</span> <span class="n">Koss</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">Domingo</span> <span class="n">HermAn</span>          <span class="o">|</span>
+<span class="o">|</span> <span class="n">BArton</span> <span class="n">StrAcke</span>          <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="insert">INSERT<a class="headerlink" href="#insert" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">INSERT</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;xy&#39;</span><span class="p">);</span>
+<span class="o">+-----------------------------+</span>
+<span class="o">|</span> <span class="k">INSERT</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;xy&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-----------------------------+</span>
+<span class="o">|</span> <span class="n">xycde</span>                       <span class="o">|</span>
+<span class="o">+-----------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">INSERT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;AAAA&#39;</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="k">INSERT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;AAAA&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="n">AAAA</span> <span class="n">Casper</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAe</span> <span class="n">Waelchi</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAre</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAYundt</span> <span class="n">Jr</span><span class="p">.</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAen</span> <span class="n">Kunde</span>               <span class="o">|</span>
+<span class="p">.......</span>
+<span class="o">|</span> <span class="n">AAAAya</span> <span class="n">Luettgen</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAardo</span> <span class="n">Turner</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAstine</span> <span class="n">Cassin</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAa</span> <span class="n">Nolan</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAice</span> <span class="n">Koss</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAngo</span> <span class="n">Herman</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAon</span> <span class="n">Stracke</span>             <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="lpad">LPAD<a class="headerlink" href="#lpad" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">LPAD</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">);</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="nf">LPAD</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="n">AAAAab</span>             <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">LPAD</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span> <span class="nf">LPAD</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span>            <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAAAAAErin</span> <span class="n">Casper</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAAASudie</span> <span class="n">Waelchi</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAADesire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAAARoy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAAAAGolden</span> <span class="n">Kunde</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAThaddeus</span> <span class="n">Ledner</span> <span class="o">|</span>
+<span class="p">......</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAALeonardo</span> <span class="n">Turner</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAugustine</span> <span class="n">Cassin</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAAAAAVelva</span> <span class="n">Nolan</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAAAAMaurice</span> <span class="n">Koss</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAADomingo</span> <span class="n">Herman</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">AAAAAAAAAAAAAAAABarton</span> <span class="n">Stracke</span> <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="rpad">RPAD<a class="headerlink" href="#rpad" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">RPAD</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">);</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="nf">RPAD</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="n">abAAAA</span>             <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">ysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">RPAD</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span> <span class="nf">RPAD</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)</span>            <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span> <span class="n">Erin</span> <span class="n">CasperAAAAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Sudie</span> <span class="n">WaelchiAAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span><span class="n">AAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span><span class="n">AAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Golden</span> <span class="n">KundeAAAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Thaddeus</span> <span class="n">LednerAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="p">.....</span>
+<span class="o">|</span> <span class="n">Soraya</span> <span class="n">LuettgenAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Pablo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span><span class="n">AAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Leonardo</span> <span class="n">TurnerAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Augustine</span> <span class="n">CassinAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Velva</span> <span class="n">NolanAAAAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Maurice</span> <span class="n">KossAAAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Domingo</span> <span class="n">HermanAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Barton</span> <span class="n">StrackeAAAAAAAAAAAAAAAA</span> <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="select-repeat">SELECT REPEAT<a class="headerlink" href="#select-repeat" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">REPEAT</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="o">+-----------------+</span>
+<span class="o">|</span> <span class="k">REPEAT</span><span class="p">(</span><span class="s1">&#39;OK&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-----------------+</span>
+<span class="o">|</span> <span class="n">OKOKOK</span>          <span class="o">|</span>
+<span class="o">+-----------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">REPEAT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+------------------------------------------+</span>
+<span class="o">|</span> <span class="k">REPEAT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                          <span class="o">|</span>
+<span class="o">+------------------------------------------+</span>
+<span class="o">|</span> <span class="n">Erin</span> <span class="n">CasperErin</span> <span class="n">Casper</span>                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">Sudie</span> <span class="n">WaelchiSudie</span> <span class="n">Waelchi</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span><span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>     <span class="o">|</span>
+<span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span><span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span>               <span class="o">|</span>
+<span class="o">|</span> <span class="n">Golden</span> <span class="n">KundeGolden</span> <span class="n">Kunde</span>                 <span class="o">|</span>
+<span class="o">|</span> <span class="n">Thaddeus</span> <span class="n">LednerThaddeus</span> <span class="n">Ledner</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">Miss</span> <span class="n">Rudy</span> <span class="n">VonRuedenMiss</span> <span class="n">Rudy</span> <span class="n">VonRueden</span>   <span class="o">|</span>
+<span class="p">......</span>
+<span class="o">|</span> <span class="n">Augustine</span> <span class="n">CassinAugustine</span> <span class="n">Cassin</span>         <span class="o">|</span>
+<span class="o">|</span> <span class="n">Velva</span> <span class="n">NolanVelva</span> <span class="n">Nolan</span>                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">Maurice</span> <span class="n">KossMaurice</span> <span class="n">Koss</span>                 <span class="o">|</span>
+<span class="o">|</span> <span class="n">Domingo</span> <span class="n">HermanDomingo</span> <span class="n">Herman</span>             <span class="o">|</span>
+<span class="o">|</span> <span class="n">Barton</span> <span class="n">StrackeBarton</span> <span class="n">Stracke</span>             <span class="o">|</span>
+<span class="o">+------------------------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="length">LENGTH<a class="headerlink" href="#length" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">LENGTH</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">);</span>
+<span class="o">+----------------+</span>
+<span class="o">|</span> <span class="nf">LENGTH</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----------------+</span>
+<span class="o">|</span>              <span class="mi">4</span> <span class="o">|</span>
+<span class="o">+----------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">LENGTH</span><span class="p">(</span><span class="s1">&#39;日本語&#39;</span><span class="p">);</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="nf">LENGTH</span><span class="p">(</span><span class="s1">&#39;日本語&#39;</span><span class="p">)</span>    <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>                   <span class="mi">9</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">name</span><span class="p">,</span> <span class="nf">LENGTH</span><span class="p">(</span><span class="k">name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----------------------+--------------+</span>
+<span class="o">|</span> <span class="k">name</span>                 <span class="o">|</span> <span class="nf">LENGTH</span><span class="p">(</span><span class="k">name</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----------------------+--------------+</span>
+<span class="o">|</span> <span class="n">Erin</span> <span class="n">Casper</span>          <span class="o">|</span>           <span class="mi">11</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Sudie</span> <span class="n">Waelchi</span>        <span class="o">|</span>           <span class="mi">13</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>   <span class="o">|</span>           <span class="mi">18</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span>        <span class="o">|</span>           <span class="mi">13</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Golden</span> <span class="n">Kunde</span>         <span class="o">|</span>           <span class="mi">12</span> <span class="o">|</span>
+<span class="p">........</span>
+<span class="o">|</span> <span class="n">Soraya</span> <span class="n">Luettgen</span>      <span class="o">|</span>           <span class="mi">15</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Pablo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span>      <span class="o">|</span>           <span class="mi">15</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Leonardo</span> <span class="n">Turner</span>      <span class="o">|</span>           <span class="mi">15</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Augustine</span> <span class="n">Cassin</span>     <span class="o">|</span>           <span class="mi">16</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Velva</span> <span class="n">Nolan</span>          <span class="o">|</span>           <span class="mi">11</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Maurice</span> <span class="n">Koss</span>         <span class="o">|</span>           <span class="mi">12</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Domingo</span> <span class="n">Herman</span>       <span class="o">|</span>           <span class="mi">14</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Barton</span> <span class="n">Stracke</span>       <span class="o">|</span>           <span class="mi">14</span> <span class="o">|</span>
+<span class="o">+----------------------+--------------+</span>
+</code></pre></div>
+<h3 id="char_length">CHAR_LENGTH<a class="headerlink" href="#char_length" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CHAR_LENGTH</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">);</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="nf">CHAR_LENGTH</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>                   <span class="mi">4</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CHAR_LENGTH</span><span class="p">(</span><span class="s1">&#39;日本語&#39;</span><span class="p">);</span>
+<span class="o">+--------------------------+</span>
+<span class="o">|</span> <span class="nf">CHAR_LENGTH</span><span class="p">(</span><span class="s1">&#39;日本語&#39;</span><span class="p">)</span>    <span class="o">|</span>
+<span class="o">+--------------------------+</span>
+<span class="o">|</span>                        <span class="mi">3</span> <span class="o">|</span>
+<span class="o">+--------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">name</span><span class="p">,</span> <span class="nf">CHAR_LENGTH</span><span class="p">(</span><span class="k">name</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----------------------+-------------------+</span>
+<span class="o">|</span> <span class="k">name</span>                 <span class="o">|</span> <span class="nf">CHAR_LENGTH</span><span class="p">(</span><span class="k">name</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+----------------------+-------------------+</span>
+<span class="o">|</span> <span class="n">Erin</span> <span class="n">Casper</span>          <span class="o">|</span>                <span class="mi">11</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Sudie</span> <span class="n">Waelchi</span>        <span class="o">|</span>                <span class="mi">13</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>   <span class="o">|</span>                <span class="mi">18</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span>        <span class="o">|</span>                <span class="mi">13</span> <span class="o">|</span>
+<span class="p">.....</span>
+<span class="o">|</span> <span class="n">Pablo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span>      <span class="o">|</span>                <span class="mi">15</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Leonardo</span> <span class="n">Turner</span>      <span class="o">|</span>                <span class="mi">15</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Augustine</span> <span class="n">Cassin</span>     <span class="o">|</span>                <span class="mi">16</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Velva</span> <span class="n">Nolan</span>          <span class="o">|</span>                <span class="mi">11</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Maurice</span> <span class="n">Koss</span>         <span class="o">|</span>                <span class="mi">12</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Domingo</span> <span class="n">Herman</span>       <span class="o">|</span>                <span class="mi">14</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">Barton</span> <span class="n">Stracke</span>       <span class="o">|</span>                <span class="mi">14</span> <span class="o">|</span>
+<span class="o">+----------------------+-------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_6">日付と時刻に関する関数<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">CURRENT_DATE</span><span class="p">(),</span> <span class="k">CURRENT_TIME</span><span class="p">(),</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">();</span>
+<span class="o">+----------------+----------------+---------------------+</span>
+<span class="o">|</span> <span class="k">CURRENT_DATE</span><span class="p">()</span> <span class="o">|</span> <span class="k">CURRENT_TIME</span><span class="p">()</span> <span class="o">|</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">()</span> <span class="o">|</span>
+<span class="o">+----------------+----------------+---------------------+</span>
+<span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">05</span>     <span class="o">|</span> <span class="mi">02</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mi">54</span>       <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">05</span> <span class="mi">02</span><span class="o">:</span><span class="mi">35</span><span class="o">:</span><span class="mi">54</span> <span class="o">|</span>
+<span class="o">+----------------+----------------+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">simpleid</span><span class="p">(</span>
+    <span class="o">-&gt;</span>     <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">15</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="n">created_at</span> <span class="kt">TIMESTAMP</span> <span class="k">DEFAULT</span> <span class="nf">NOW</span><span class="p">()</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">simpleid</span><span class="p">;</span>
+<span class="o">+------------+-----------+------+-----+-------------------+-------+</span>
+<span class="o">|</span> <span class="n">Field</span>      <span class="o">|</span> <span class="k">Type</span>      <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span>           <span class="o">|</span> <span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+------------+-----------+------+-----+-------------------+-------+</span>
+<span class="o">|</span> <span class="n">id</span>         <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>   <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>              <span class="o">|</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">created_at</span> <span class="o">|</span> <span class="kt">timestamp</span> <span class="o">|</span> <span class="n">YES</span>  <span class="o">|</span>     <span class="o">|</span> <span class="k">CURRENT_TIMESTAMP</span> <span class="o">|</span>       <span class="o">|</span>
+<span class="o">+------------+-----------+------+-----+-------------------+-------+</span>
+<span class="mi">2</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">simpleid</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">VALUES</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">1</span> <span class="k">row</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">simpleid</span><span class="p">;</span>
+<span class="o">+------+---------------------+</span>
+<span class="o">|</span> <span class="n">id</span>   <span class="o">|</span> <span class="n">created_at</span>          <span class="o">|</span>
+<span class="o">+------+---------------------+</span>
+<span class="o">|</span>    <span class="mi">1</span> <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">05</span> <span class="mi">02</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mi">01</span> <span class="o">|</span>
+<span class="o">+------+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="now">NOW()<a class="headerlink" href="#now" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">NOW</span><span class="p">();</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="nf">NOW</span><span class="p">()</span>               <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">00</span><span class="o">:</span><span class="mi">21</span><span class="o">:</span><span class="mi">10</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="datediff">DATEDIFF<a class="headerlink" href="#datediff" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DATEDIFF</span><span class="p">(</span><span class="s1">&#39;2020-11-30&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-20&#39;</span><span class="p">);</span>
+<span class="o">+--------------------------------------+</span>
+<span class="o">|</span> <span class="nf">DATEDIFF</span><span class="p">(</span><span class="s1">&#39;2020-11-30&#39;</span><span class="p">,</span> <span class="s1">&#39;2020-01-20&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------------------------+</span>
+<span class="o">|</span>                                  <span class="mi">315</span> <span class="o">|</span>
+<span class="o">+--------------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="dayname">DAYNAME<a class="headerlink" href="#dayname" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DAYNAME</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="nf">DAYNAME</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="n">Monday</span>                <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="month">MONTH<a class="headerlink" href="#month" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">MONTH</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="k">MONTH</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span>                  <span class="mi">10</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="year">YEAR<a class="headerlink" href="#year" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="kt">YEAR</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="kt">YEAR</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span>               <span class="mi">2020</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="day">DAY<a class="headerlink" href="#day" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">DAY</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+-------------------+</span>
+<span class="o">|</span> <span class="k">DAY</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------------+</span>
+<span class="o">|</span>                <span class="mi">12</span> <span class="o">|</span>
+<span class="o">+-------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="week">WEEK<a class="headerlink" href="#week" title="Permanent link">&para;</a></h3>
+<p>第何周目か</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">WEEK</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="k">WEEK</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span>                 <span class="mi">41</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="dayofmonth">DAYOFMONTH<a class="headerlink" href="#dayofmonth" title="Permanent link">&para;</a></h3>
+<p>その月における経過日数</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DAYOFMONTH</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+--------------------------+</span>
+<span class="o">|</span> <span class="nf">DAYOFMONTH</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+--------------------------+</span>
+<span class="o">|</span>                       <span class="mi">12</span> <span class="o">|</span>
+<span class="o">+--------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="dayofyear">DAYOFYEAR<a class="headerlink" href="#dayofyear" title="Permanent link">&para;</a></h3>
+<p>その年における経過日数</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DAYOFYEAR</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span> <span class="nf">DAYOFYEAR</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span>                     <span class="mi">286</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="dayofweek">DAYOFWEEK<a class="headerlink" href="#dayofweek" title="Permanent link">&para;</a></h3>
+<p>その週における経過日数</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DAYOFWEEK</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">);</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span> <span class="nf">DAYOFWEEK</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span>                       <span class="mi">2</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="date_format-a">DATE_FORMAT - %a<a class="headerlink" href="#date_format-a" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%a&#39;</span><span class="p">);</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%a&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="n">Mon</span>                             <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="date_format-b">DATE_FORMAT - %b<a class="headerlink" href="#date_format-b" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%b&#39;</span><span class="p">);</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%b&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="n">Oct</span>                             <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="date_format-c">DATE_FORMAT - %c<a class="headerlink" href="#date_format-c" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%c&#39;</span><span class="p">);</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%c&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="mi">10</span>                              <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="date_format-d">DATE_FORMAT - %D<a class="headerlink" href="#date_format-d" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%d&#39;</span><span class="p">);</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="nf">DATE_FORMAT</span><span class="p">(</span><span class="s1">&#39;2020-10-12&#39;</span><span class="p">,</span> <span class="s1">&#39;%d&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="o">|</span> <span class="mi">12</span>                              <span class="o">|</span>
+<span class="o">+---------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="convert_tz">CONVERT_TZ<a class="headerlink" href="#convert_tz" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CONVERT_TZ</span><span class="p">(</span><span class="s1">&#39;2020-10-01 06:34:24&#39;</span><span class="p">,</span> <span class="s1">&#39;asia/Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;America/New_York&#39;</span><span class="p">);</span>
+<span class="o">+---------------------------------------------------------------------+</span>
+<span class="o">|</span> <span class="nf">CONVERT_TZ</span><span class="p">(</span><span class="s1">&#39;2020-10-01 06:34:24&#39;</span><span class="p">,</span> <span class="s1">&#39;asia/Tokyo&#39;</span><span class="p">,</span> <span class="s1">&#39;America/New_York&#39;</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+---------------------------------------------------------------------+</span>
+<span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">30</span> <span class="mi">17</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mi">24</span>                                                 <span class="o">|</span>
+<span class="o">+---------------------------------------------------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_7">その他の関数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<ul>
+<li>DATABASE<br />
+<code>DATABASE()</code>: 現在選択しているデフォルトのデータベース名を取得する</li>
+<li>CURRENT_USER<br />
+<code>CURRENT_USER()</code>: MySQLに接続する時に実際に認証が行われたユーザ名とホスト名を取得する</li>
+<li>VERSION<br />
+<code>VERSION()</code>: MySQLのバージョンを取得する</li>
+<li>CHERSET<br />
+<code>CHERSET('A')</code>: 指定した値Aの文字コードを取得する</li>
+<li>COLLATION<br />
+<code>COLLATION('A')</code>: 指定した値Aの文字コードに加えて照合順序を取得する</li>
+<li>DEFAULT<br />
+<code>DEFAULT(列名)</code>: 指定した列に対して、デフォルト値を取得する </li>
+<li>CAST
+  <code>CAST(now() AS signed</code>: 指定した値を別のデータ型に変換する</li>
+<li>CONVERT
+  <code>CONVERT(now(), signed)</code>: 指定した値を別のデータフォーマットに変換する</li>
+</ul>
+<h3 id="database">DATABASE<a class="headerlink" href="#database" title="Permanent link">&para;</a></h3>
+<p>現在選択しているデフォルトのデータベース名を取得する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">DATABASE</span><span class="p">();</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="k">DATABASE</span><span class="p">()</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="n">ecsite</span>     <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="current_user">CURRENT_USER<a class="headerlink" href="#current_user" title="Permanent link">&para;</a></h3>
+<p>MySQLに接続する時に実際に認証が行われたユーザ名とホスト名を取得する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">CURRENT_USER</span><span class="p">();</span>
+<span class="o">+----------------+</span>
+<span class="o">|</span> <span class="k">CURRENT_USER</span><span class="p">()</span> <span class="o">|</span>
+<span class="o">+----------------+</span>
+<span class="o">|</span> <span class="k">admin</span><span class="err">@</span><span class="o">%</span>        <span class="o">|</span>
+<span class="o">+----------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="version">VERSION<a class="headerlink" href="#version" title="Permanent link">&para;</a></h3>
+<p>MySQLのバージョンを取得する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">VERSION</span><span class="p">();</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="nf">VERSION</span><span class="p">()</span>  <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="o">|</span> <span class="mf">5.7.34</span><span class="o">-</span><span class="n">log</span> <span class="o">|</span>
+<span class="o">+------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="cherset">CHERSET<a class="headerlink" href="#cherset" title="Permanent link">&para;</a></h3>
+<p>指定した値Aの文字コードを取得する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">CHARSET</span><span class="p">(</span><span class="s1">&#39;ねこ&#39;</span><span class="p">);</span>
+<span class="o">+-------------------+</span>
+<span class="o">|</span> <span class="k">CHARSET</span><span class="p">(</span><span class="s1">&#39;ねこ&#39;</span><span class="p">)</span>   <span class="o">|</span>
+<span class="o">+-------------------+</span>
+<span class="o">|</span> <span class="n">utf8mb4</span>           <span class="o">|</span>
+<span class="o">+-------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="collation">COLLATION<a class="headerlink" href="#collation" title="Permanent link">&para;</a></h3>
+<p>指定した値Aの
+を取得する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">COLLATION</span><span class="p">(</span><span class="s1">&#39;猫&#39;</span><span class="p">);</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="k">COLLATION</span><span class="p">(</span><span class="s1">&#39;猫&#39;</span><span class="p">)</span>    <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="o">|</span> <span class="n">utf8mb4_general_ci</span> <span class="o">|</span>
+<span class="o">+--------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="default">DEFAULT<a class="headerlink" href="#default" title="Permanent link">&para;</a></h3>
+<p>指定した列に対して、デフォルト値を取得する </p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">DEFAULT</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span> <span class="k">DEFAULT</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="p">......</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="o">|</span>           <span class="mi">0</span> <span class="o">|</span>
+<span class="o">+-------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="cast">CAST<a class="headerlink" href="#cast" title="Permanent link">&para;</a></h3>
+<p>指定した値を別のデータ型に変換する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">NOW</span><span class="p">();</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="nf">NOW</span><span class="p">()</span>               <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">00</span><span class="o">:</span><span class="mi">21</span><span class="o">:</span><span class="mi">10</span> <span class="o">|</span>
+<span class="o">+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="nf">CAST</span><span class="p">(</span><span class="nf">NOW</span><span class="p">()</span> <span class="k">AS</span> <span class="k">SIGNED</span><span class="p">);</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span> <span class="nf">CAST</span><span class="p">(</span><span class="nf">NOW</span><span class="p">()</span> <span class="k">AS</span> <span class="k">SIGNED</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="o">|</span>        <span class="mi">20210806002043</span> <span class="o">|</span>
+<span class="o">+-----------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="convert">CONVERT<a class="headerlink" href="#convert" title="Permanent link">&para;</a></h3>
+<p>指定した値を別のデータフォーマットに変換する</p>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">CONVERT</span><span class="p">(</span><span class="nf">NOW</span><span class="p">(),</span>  <span class="k">SIGNED</span><span class="p">);</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span> <span class="k">CONVERT</span><span class="p">(</span><span class="nf">NOW</span><span class="p">(),</span>  <span class="k">SIGNED</span><span class="p">)</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="o">|</span>          <span class="mi">20210806002646</span> <span class="o">|</span>
+<span class="o">+-------------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="intdecimal">INT型をDECIMAL型に変更<a class="headerlink" href="#intdecimal" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="kt">DECIMAL</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="k">FROM</span> <span class="n">users</span><span class="p">;</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="k">CONVERT</span><span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="kt">DECIMAL</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span>                      <span class="mf">1.000</span> <span class="o">|</span>
+<span class="o">|</span>                      <span class="mf">2.000</span> <span class="o">|</span>
+<span class="o">|</span>                      <span class="mf">3.000</span> <span class="o">|</span>
+<span class="o">|</span>                      <span class="mf">4.000</span> <span class="o">|</span>
+<span class="o">|</span>                      <span class="mf">5.000</span> <span class="o">|</span>
+<span class="p">.......</span>
+<span class="o">|</span>                     <span class="mf">95.000</span> <span class="o">|</span>
+<span class="o">|</span>                     <span class="mf">96.000</span> <span class="o">|</span>
+<span class="o">|</span>                     <span class="mf">97.000</span> <span class="o">|</span>
+<span class="o">|</span>                     <span class="mf">98.000</span> <span class="o">|</span>
+<span class="o">|</span>                     <span class="mf">99.000</span> <span class="o">|</span>
+<span class="o">|</span>                     <span class="mf">99.999</span> <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span><span class="p">,</span> <span class="mi">1</span> <span class="n">warning</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_8">演習<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="1">演習1<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<h4 id="_9">要件<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<ul>
+<li>product_idと合計発注量を表示する</li>
+<li>合計発注量はsum_amountと列名として表示する</li>
+<li>リストは売れ筋順に並べる</li>
+</ul>
+<h4 id="_10">確認<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">id</span> <span class="k">LIMIT</span> <span class="mi">1</span><span class="p">;</span>
+<span class="o">+----+----------+------------+--------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="n">order_id</span> <span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">amount</span> <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+----+----------+------------+--------+----------------------------+----------------------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span>        <span class="mi">2</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.679643</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.679643</span> <span class="o">|</span>
+<span class="o">+----+----------+------------+--------+----------------------------+----------------------------+</span>
+</code></pre></div>
+<h4 id="_11">回答<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">product_id</span><span class="p">,</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sum_amount</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">product_id</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">sum_amount</span> <span class="k">DESC</span><span class="p">;</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">sum_amount</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span>          <span class="mi">8</span> <span class="o">|</span>        <span class="mi">141</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>        <span class="mi">139</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">5</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">7</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>        <span class="mi">135</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>        <span class="mi">134</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">4</span> <span class="o">|</span>        <span class="mi">132</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">6</span> <span class="o">|</span>        <span class="mi">131</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="mi">9</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="n">product_id</span><span class="p">,</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sum_amount</span> <span class="k">FROM</span> <span class="n">order_details</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">product_id</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">DESC</span><span class="p">;</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">sum_amount</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="o">|</span>          <span class="mi">8</span> <span class="o">|</span>        <span class="mi">141</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>        <span class="mi">139</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">7</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">5</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>        <span class="mi">135</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>        <span class="mi">134</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">4</span> <span class="o">|</span>        <span class="mi">132</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">6</span> <span class="o">|</span>        <span class="mi">131</span> <span class="o">|</span>
+<span class="o">+------------+------------+</span>
+<span class="mi">9</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="2">演習2<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
+<h4 id="_12">要件<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
+<p>課題1の発注量ランキング表に対して、平均値、最大値、最小値も一緒に表示する</p>
+<p>表記文言
+- product_id
+- sum_amount
+- avg_amount
+- max_amount
+- min_amount</p>
+<h4 id="_13">回答<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span>
+    <span class="o">-&gt;</span> <span class="n">product_id</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">sum_amount</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">AVG</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">avg_amount</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">MAX</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">max_amount</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">MIN</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">AS</span> <span class="n">min_amount</span>
+    <span class="o">-&gt;</span> <span class="k">FROM</span>
+    <span class="o">-&gt;</span> <span class="n">order_details</span>
+    <span class="o">-&gt;</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">product_id</span>
+    <span class="o">-&gt;</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">DESC</span><span class="p">;</span>
+<span class="k">ERROR</span> <span class="mi">2013</span> <span class="p">(</span><span class="n">HY000</span><span class="p">)</span><span class="o">:</span> <span class="n">Lost</span> <span class="k">connection</span> <span class="k">to</span> <span class="n">MySQL</span> <span class="k">server</span> <span class="n">during</span> <span class="k">query</span>
+<span class="k">No</span> <span class="k">connection</span><span class="p">.</span> <span class="n">Trying</span> <span class="k">to</span> <span class="n">reconnect</span><span class="p">...</span>
+<span class="k">Connection</span> <span class="n">id</span><span class="o">:</span>    <span class="mi">369</span>
+<span class="k">Current</span> <span class="k">database</span><span class="o">:</span> <span class="n">ecsite</span>
+
+<span class="o">+------------+------------+------------+------------+------------+</span>
+<span class="o">|</span> <span class="n">product_id</span> <span class="o">|</span> <span class="n">sum_amount</span> <span class="o">|</span> <span class="n">avg_amount</span> <span class="o">|</span> <span class="n">max_amount</span> <span class="o">|</span> <span class="n">min_amount</span> <span class="o">|</span>
+<span class="o">+------------+------------+------------+------------+------------+</span>
+<span class="o">|</span>          <span class="mi">8</span> <span class="o">|</span>        <span class="mi">141</span> <span class="o">|</span>     <span class="mf">2.1045</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>        <span class="mi">139</span> <span class="o">|</span>     <span class="mf">2.0746</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">5</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>     <span class="mf">2.0299</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">7</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>     <span class="mf">2.0299</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">9</span> <span class="o">|</span>        <span class="mi">136</span> <span class="o">|</span>     <span class="mf">2.0606</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">2</span> <span class="o">|</span>        <span class="mi">135</span> <span class="o">|</span>     <span class="mf">2.0149</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>        <span class="mi">134</span> <span class="o">|</span>     <span class="mf">2.0000</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">4</span> <span class="o">|</span>        <span class="mi">132</span> <span class="o">|</span>     <span class="mf">1.9701</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">|</span>          <span class="mi">6</span> <span class="o">|</span>        <span class="mi">131</span> <span class="o">|</span>     <span class="mf">1.9552</span> <span class="o">|</span>          <span class="mi">3</span> <span class="o">|</span>          <span class="mi">1</span> <span class="o">|</span>
+<span class="o">+------------+------------+------------+------------+------------+</span>
+</code></pre></div>
+<h3 id="3">演習3<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<h4 id="_14">要件<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
+<p>演習1で作成した表を利用して、以下のように文章で表示させてください。</p>
+<p>「製品IDxxの商品の総注文量はxxです。」</p>
+<p>使用するのはCONCATによる文字列結合</p>
+<h4 id="_15">回答<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span>
+    <span class="o">-&gt;</span>     <span class="nf">CAST</span><span class="p">(</span>
+    <span class="o">-&gt;</span>         <span class="nf">CONCAT</span><span class="p">(</span><span class="s1">&#39;製品ID&#39;</span><span class="p">,</span> <span class="n">product_id</span><span class="p">,</span> <span class="s1">&#39;の商品の総注文量は&#39;</span><span class="p">,</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">),</span> <span class="s1">&#39;です&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span>     <span class="k">AS</span> <span class="kt">CHAR</span><span class="p">)</span>
+    <span class="o">-&gt;</span>     <span class="k">AS</span> <span class="n">sum_amount</span>
+    <span class="o">-&gt;</span> <span class="k">FROM</span>
+    <span class="o">-&gt;</span>     <span class="n">order_details</span>
+    <span class="o">-&gt;</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">product_id</span>
+    <span class="o">-&gt;</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="k">DESC</span><span class="p">;</span>
+<span class="o">+-----------------------------------------------+</span>
+<span class="o">|</span> <span class="n">sum_amount</span>                                    <span class="o">|</span>
+<span class="o">+-----------------------------------------------+</span>
+<span class="o">|</span> <span class="n">製品ID8の商品の総注文量は141です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID1の商品の総注文量は139です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID5の商品の総注文量は136です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID7の商品の総注文量は136です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID9の商品の総注文量は136です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID2の商品の総注文量は135です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID3の商品の総注文量は134です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID4の商品の総注文量は132です</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">製品ID6の商品の総注文量は131です</span>              <span class="o">|</span>
+<span class="o">+-----------------------------------------------+</span>
+<span class="mi">9</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="4">演習4<a class="headerlink" href="#4" title="Permanent link">&para;</a></h3>
+<h4 id="_16">要件<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>created_at</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Andy</td>
+<td>作成された日時</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Mary</td>
+<td>作成された日時</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sam</td>
+<td>作成された日時</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_17">回答<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">case4</span><span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="k">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">name</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">created_at</span> <span class="kt">DATE</span> <span class="k">NOT</span> <span class="no">NULL</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DESC</span> <span class="n">case4</span>
+    <span class="o">-&gt;</span> <span class="p">;</span>
+<span class="o">+------------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">Field</span>      <span class="o">|</span> <span class="k">Type</span>         <span class="o">|</span> <span class="no">Null</span> <span class="o">|</span> <span class="k">Key</span> <span class="o">|</span> <span class="k">Default</span> <span class="o">|</span> <span class="n">Extra</span>          <span class="o">|</span>
+<span class="o">+------------+--------------+------+-----+---------+----------------+</span>
+<span class="o">|</span> <span class="n">id</span>         <span class="o">|</span> <span class="kt">int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>       <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span> <span class="n">PRI</span> <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span> <span class="k">auto_increment</span> <span class="o">|</span>
+<span class="o">|</span> <span class="k">name</span>       <span class="o">|</span> <span class="kt">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">|</span> <span class="n">created_at</span> <span class="o">|</span> <span class="kt">date</span>         <span class="o">|</span> <span class="k">NO</span>   <span class="o">|</span>     <span class="o">|</span> <span class="no">NULL</span>    <span class="o">|</span>                <span class="o">|</span>
+<span class="o">+------------+--------------+------+-----+---------+----------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">case4</span>
+    <span class="o">-&gt;</span> <span class="p">(</span>
+    <span class="o">-&gt;</span>     <span class="n">id</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="n">created_at</span>
+    <span class="o">-&gt;</span> <span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="k">VALUES</span> 
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Andy&#39;</span><span class="p">,</span> <span class="nf">NOW</span><span class="p">()),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Mary&#39;</span><span class="p">,</span> <span class="nf">NOW</span><span class="p">()),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Sam&#39;</span><span class="p">,</span> <span class="nf">NOW</span><span class="p">());</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span><span class="p">,</span> <span class="mi">3</span> <span class="k">warnings</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">3</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">case4</span><span class="p">;</span>
+<span class="o">+----+------+------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span> <span class="o">|</span> <span class="n">created_at</span> <span class="o">|</span>
+<span class="o">+----+------+------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Andy</span> <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Mary</span> <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Sam</span>  <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="o">|</span>
+<span class="o">+----+------+------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="_18">ベストな回答<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">case4</span>
+    <span class="o">-&gt;</span> <span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="n">id</span> <span class="kt">INT</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="k">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="k">name</span> <span class="kt">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">NOT</span> <span class="no">NULL</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">created_at</span> <span class="kt">TIMESTAMP</span> <span class="k">DEFAULT</span> <span class="nf">NOW</span><span class="p">()</span>
+    <span class="o">-&gt;</span> <span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.03</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">case4</span><span class="p">(</span>
+    <span class="o">-&gt;</span> <span class="k">name</span>
+    <span class="o">-&gt;</span> <span class="p">)</span> <span class="k">VALUES</span> 
+    <span class="o">-&gt;</span> <span class="p">(</span><span class="s1">&#39;Andy&#39;</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="s1">&#39;Mary&#39;</span><span class="p">),</span>
+    <span class="o">-&gt;</span>     <span class="p">(</span><span class="s1">&#39;Sam&#39;</span><span class="p">);</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">3</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+<span class="n">Records</span><span class="o">:</span> <span class="mi">3</span>  <span class="n">Duplicates</span><span class="o">:</span> <span class="mi">0</span>  <span class="k">Warnings</span><span class="o">:</span> <span class="mi">0</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">case4</span><span class="p">;</span>
+<span class="o">+----+------+---------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span> <span class="o">|</span> <span class="n">created_at</span>          <span class="o">|</span>
+<span class="o">+----+------+---------------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Andy</span> <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">03</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">59</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Mary</span> <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">03</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">59</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Sam</span>  <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">03</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">59</span> <span class="o">|</span>
+<span class="o">+----+------+---------------------+</span>
+<span class="mi">3</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="5">演習5<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
+<h4 id="_19">要件<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
+<p>演習4で作成したcase4テーブルないのデータを下記の条件で抽出</p>
+<ul>
+<li>Andyという名前をMr.Andyに変更した上で、</li>
+<li>全てを大文字にする</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span>
+    <span class="o">-&gt;</span>     <span class="n">id</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">UPPER</span><span class="p">(</span><span class="k">INSERT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Mr.A&#39;</span><span class="p">)),</span>
+    <span class="o">-&gt;</span>     <span class="n">created_at</span>
+    <span class="o">-&gt;</span> <span class="k">FROM</span>
+    <span class="o">-&gt;</span>     <span class="n">case4</span>
+    <span class="o">-&gt;</span> <span class="k">WHERE</span>
+    <span class="o">-&gt;</span>     <span class="k">name</span> <span class="o">=</span> <span class="s1">&#39;Andy&#39;</span><span class="p">;</span>
+<span class="o">+----+-----------------------------------+---------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="nf">UPPER</span><span class="p">(</span><span class="k">INSERT</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Mr.A&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="n">created_at</span>          <span class="o">|</span>
+<span class="o">+----+-----------------------------------+---------------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">MR</span><span class="p">.</span><span class="n">ANDY</span>                           <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">03</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">59</span> <span class="o">|</span>
+<span class="o">+----+-----------------------------------+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span>
+    <span class="o">-&gt;</span>     <span class="n">id</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">UPPER</span><span class="p">(</span><span class="k">REPLACE</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="s1">&#39;Mr.Andy&#39;</span><span class="p">)),</span>
+    <span class="o">-&gt;</span>     <span class="n">created_at</span>
+    <span class="o">-&gt;</span> <span class="k">FROM</span>
+    <span class="o">-&gt;</span>     <span class="n">case4</span>
+    <span class="o">-&gt;</span> <span class="k">WHERE</span>
+    <span class="o">-&gt;</span>     <span class="k">name</span> <span class="o">=</span> <span class="s1">&#39;Andy&#39;</span><span class="p">;</span>
+<span class="o">+----+---------------------------------------+---------------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="nf">UPPER</span><span class="p">(</span><span class="k">REPLACE</span><span class="p">(</span><span class="k">name</span><span class="p">,</span> <span class="k">name</span><span class="p">,</span> <span class="s1">&#39;Mr.Andy&#39;</span><span class="p">))</span> <span class="o">|</span> <span class="n">created_at</span>          <span class="o">|</span>
+<span class="o">+----+---------------------------------------+---------------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">MR</span><span class="p">.</span><span class="n">ANDY</span>                               <span class="o">|</span> <span class="mi">2021</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span> <span class="mi">03</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">59</span> <span class="o">|</span>
+<span class="o">+----+---------------------------------------+---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="フッター">
+      
+        
+        <a href="../conditional_statement_using_logical_operators/" class="md-footer__link md-footer__link--prev" aria-label="前: 論理演算子を利用した条件文" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                前
+              </span>
+              論理演算子を利用した条件文
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../table_join/" class="md-footer__link md-footer__link--next" aria-label="次: テーブル結合" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                次
+              </span>
+              テーブル結合
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2021 bonji@mikuro.net
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\u3000\u3001\u3002\uff0c\uff0e]+", "search.placeholder": "\u691c\u7d22", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>

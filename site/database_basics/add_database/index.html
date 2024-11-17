@@ -1,0 +1,1153 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="MySQL学習のメモ書き">
+      
+      
+      
+        <meta name="author" content="Shuji Narumi">
+      
+      
+      <link rel="icon" href="../../images/logo_w.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>データベースの追加 - MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="MySQL" class="md-header__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              データベースの追加
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="クリア" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MySQL" class="md-nav__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      <label class="md-nav__link" for="__nav_1">
+        データベースの基礎力
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="データベースの基礎力" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          データベースの基礎力
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql_for_the_first_time/" class="md-nav__link">
+        MySQLへの接続
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_and_sql_overview/" class="md-nav__link">
+        データベースとSQLの概要
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          データベースの追加
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        データベースの追加
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    データベースの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    データベースにおける基本的なデータ型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    テーブルの追加
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    データベースの構造確認
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    テーブルの削除
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    データベースの削除
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_and_update_data/" class="md-nav__link">
+        データの追加と更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_settings_for_table_creation/" class="md-nav__link">
+        テーブル作成の応用設定
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_construction_exercise/" class="md-nav__link">
+        データベース構築演習
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        SQLデータ解析ノウハウ
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLデータ解析ノウハウ" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          SQLデータ解析ノウハウ
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/database_restore/" class="md-nav__link">
+        データベースの復元
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/data_extraction_know-how/" class="md-nav__link">
+        データ抽出のノウハウ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/conditional_statement_using_logical_operators/" class="md-nav__link">
+        論理演算子を利用した条件文
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/functions_available_in_sql/" class="md-nav__link">
+        SQLで利用できる関数
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/table_join/" class="md-nav__link">
+        テーブル結合
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_view/" class="md-nav__link">
+        VIEWの活用
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_subqueries/" class="md-nav__link">
+        サブクエリの活用
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        SQLの復習（勘所）
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLの復習（勘所）" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SQLの復習（勘所）
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/data_reference/" class="md-nav__link">
+        データの参照
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/record_update/" class="md-nav__link">
+        レコードの更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/table_operation/" class="md-nav__link">
+        テーブルの操作
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/others/" class="md-nav__link">
+        その他
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        etc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="etc" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          etc
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/about_index/" class="md-nav__link">
+        INDEX
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/char/" class="md-nav__link">
+        文字コードについて
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/environmental_setting/" class="md-nav__link">
+        環境変更
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/practice/" class="md-nav__link">
+        課題
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    データベースの作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    データベースにおける基本的なデータ型
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    テーブルの追加
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    データベースの構造確認
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    テーブルの削除
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    データベースの削除
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    まとめ
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">データベースの追加<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>SQLを利用してデータベースやテーブル作成のクエリ操作を学習します。</p>
+<h2 id="_2">データベースの作成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p><code>CREATE DATABASE</code>文を使ったデーターベースを作成方法</p>
+<h3 id="_3">文法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="err">データベース名</span>
+</code></pre></div>
+<h3 id="_4">作成例<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>以下順番に実行し、データベース名:<code>artdata</code>というデータベースを作成します。</p>
+<h4 id="1">1. データベースの一覧を表示<a class="headerlink" href="#1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="s1">&#39;information_schema&#39;</span>
+<span class="s1">&#39;innodb&#39;</span>
+<span class="s1">&#39;mysql&#39;</span>
+<span class="s1">&#39;performance_schema&#39;</span>
+<span class="s1">&#39;sys&#39;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">tables</span><span class="p">;</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_personnel_infomation</span> <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span> <span class="n">employee_information</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">personnel_evaluation</span>           <span class="o">|</span>
+<span class="o">|</span> <span class="n">salary_infomation</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">test</span>                           <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">full</span> <span class="k">tables</span><span class="p">;</span>
+<span class="o">+--------------------------------+------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_personnel_infomation</span> <span class="o">|</span> <span class="n">Table_type</span> <span class="o">|</span>
+<span class="o">+--------------------------------+------------+</span>
+<span class="o">|</span> <span class="n">employee_information</span>           <span class="o">|</span> <span class="n">BASE</span> <span class="k">TABLE</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">personnel_evaluation</span>           <span class="o">|</span> <span class="n">BASE</span> <span class="k">TABLE</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">salary_infomation</span>              <span class="o">|</span> <span class="n">BASE</span> <span class="k">TABLE</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">test</span>                           <span class="o">|</span> <span class="n">BASE</span> <span class="k">TABLE</span> <span class="o">|</span>
+<span class="o">+--------------------------------+------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="2">2. デーベースを作成<a class="headerlink" href="#2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">artdata</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="3">3. データベース作成済みを確認<a class="headerlink" href="#3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>&#39;information_schema&#39;
+&#39;artdata&#39;
+&#39;innodb&#39;
+&#39;mysql&#39;
+&#39;performance_schema&#39;
+&#39;sys&#39;
+</code></pre></div>
+<h2 id="_5">データベースにおける基本的なデータ型<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>数値型、文字型、日付型などの基本的なデータ型について</p>
+<h3 id="_6">データ型とは？<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>データベースでは、テーブルの列（カラム）毎に型の属性を定めます。</p>
+<p>MySQLでは基本的なデータ型を以下3つ定めます。</p>
+<ul>
+<li>数値型</li>
+<li>文字列型</li>
+<li>日付型</li>
+</ul>
+<h3 id="_7">なぜ？データ型を定めなければならないのか？<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>データの型を指定しすることで、データの統一性に違反するデータを持たないようにするため。</p>
+<h3 id="_8">数値型<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<h4 id="_9">整数型<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">データ型</th>
+<th align="right">値の範囲</th>
+<th align="right">UNSIGNED</th>
+<th align="right">ZEROFILL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">TYVYINT(m)</td>
+<td align="center">整数型<br>(1バイト)</td>
+<td align="right">-128〜127</td>
+<td align="right">0〜255</td>
+<td align="right">000〜255</td>
+</tr>
+<tr>
+<td align="center">SMALLINT(m)</td>
+<td align="center">整数型<br>(2バイト)</td>
+<td align="right">-32768〜32767</td>
+<td align="right">0〜65536</td>
+<td align="right">00000〜65736</td>
+</tr>
+<tr>
+<td align="center">MEDIUMINT(m)</td>
+<td align="center">整数型<br>(3バイト)</td>
+<td align="right">-8388608〜8388607</td>
+<td align="right">0〜16777215</td>
+<td align="right">00000000〜16777215</td>
+</tr>
+<tr>
+<td align="center">INT(m)</td>
+<td align="center">整数型<br>(4バイト)</td>
+<td align="right">-2147483648<br>〜<br>21473647</td>
+<td align="right">0<br>〜<br>4294967295</td>
+<td align="right">0000000000<br>〜<br>4294967295</td>
+</tr>
+<tr>
+<td align="center">BIGINT(m)</td>
+<td align="center">整数型<br>(8バイト)</td>
+<td align="right">-9223372036854775808<br>〜<br>9223372036854775807</td>
+<td align="right">0<br>〜<br>18446744073709551615</td>
+<td align="right">00000000000000000000<br>〜<br>18446744073709551615</td>
+</tr>
+</tbody>
+</table>
+<h4 id="_10">浮動小数点型<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="left">データ型</th>
+<th align="right">値の範囲</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">FLOAT</td>
+<td align="left">単精度浮動小数点型</td>
+<td align="right">-3.402823466E+38 〜 3.402823466E+308</td>
+</tr>
+<tr>
+<td align="center">DOUBLE</td>
+<td align="left">倍精度浮動小数点型</td>
+<td align="right">-1.7976931348623157E+308 〜 1.7976931348623157E+308</td>
+</tr>
+<tr>
+<td align="center">FLOAT(m,d)</td>
+<td align="left">単精度浮動小数点型</td>
+<td align="right">m: 1〜255桁<br>n: 0〜30桁まで指定可能</td>
+</tr>
+<tr>
+<td align="center">DOUBLE(m,d)</td>
+<td align="left">倍精度浮動小数点型</td>
+<td align="right">m: 1〜255桁<br>n: 0〜30桁まで指定可能</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_11">文字列型<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="left">データ型</th>
+<th align="right">値の範囲</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">CHAR(m)</td>
+<td align="left">固定帳文字型</td>
+<td align="right">m（文字数指定）: 0〜255文字</td>
+</tr>
+<tr>
+<td align="center">VARCHAR(m)</td>
+<td align="left">可変帳文字型</td>
+<td align="right">m（バイト数指定）: 0〜65535バイト</td>
+</tr>
+<tr>
+<td align="center">TYNYTEXTT</td>
+<td align="left">テキスト型</td>
+<td align="right">0〜255バイト（固定）</td>
+</tr>
+<tr>
+<td align="center">TEXT</td>
+<td align="left">テキスト型</td>
+<td align="right">0〜65535バイト（固定）</td>
+</tr>
+<tr>
+<td align="center">MEDIUMTEXT</td>
+<td align="left">テキスト型</td>
+<td align="right">0〜16777215バイト（固定）</td>
+</tr>
+<tr>
+<td align="center">LONGTEXT</td>
+<td align="left">テキスト型</td>
+<td align="right">0〜4294967295バイト（固定）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_12">日付型<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="left">データ型</th>
+<th align="right">値の範囲</th>
+<th>備考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">DATE</td>
+<td align="left">日付型</td>
+<td align="right">'YYY-MM-DD'</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">DATETIME</td>
+<td align="left">日付時刻型</td>
+<td align="right">'YYY-MM-DD HH:MM:SS'</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">TIMESTAMP</td>
+<td align="left">日付時刻型</td>
+<td align="right">'YYY-MM-DD HH:MM:SS'</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">TIME</td>
+<td align="left">時刻型</td>
+<td align="right">'HH:MM:SS'</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">YEAR[4]</td>
+<td align="left">日付型（4桁年）</td>
+<td align="right">'YYYY'</td>
+<td>1901〜2155または、<br>0000が設定可能</td>
+</tr>
+<tr>
+<td align="center">YEAR[2]</td>
+<td align="left">日付型（2桁年）</td>
+<td align="right">'YY'</td>
+<td>70〜69が設定可能<br>（1970〜2069）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_13">テーブルの追加<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<p><code>CREATE TABLE</code>文を使ったテーブルの作成方法</p>
+<h3 id="_14">新規テーブルの作成<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<h4 id="_15">文法<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+<h4 id="1_1">1. 対象のデータベースに切り替える<a class="headerlink" href="#1_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">use</span> <span class="n">artdata</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="2_1">2. テーブルの一覧表示<a class="headerlink" href="#2_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="3_1">3. テーブルの作成<a class="headerlink" href="#3_1" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">artist</span><span class="p">(</span><span class="n">id</span> <span class="nb">int</span> <span class="k">not</span> <span class="k">null</span> <span class="n">auto_increment</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span> <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span> <span class="n">category</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">));</span>
+</code></pre></div>
+<h4 id="4">4. テーブル作成の成功を確認<a class="headerlink" href="#4" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>artist
+</code></pre></div>
+<h2 id="_16">データベースの構造確認<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<p>テーブルの構造確認します。</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">columns</span> <span class="k">from</span> <span class="n">artist</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>Field       Type            Null    Key     Default     Extra
+id          int(11)         NO      PRI     NULL        auto_increment
+name        varchar(255)    NO              NULL
+category    varchar(255)    YES             NULL
+</code></pre></div></p>
+<h2 id="_17">テーブルの削除<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<p><code>DROP TABEL</code>文を使ったテーブルの削除方法</p>
+<h3 id="_18">文法<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="err">テーブル名</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="_19">実行例<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
+<h4 id="1_2">1. テーブル一覧を表示<a class="headerlink" href="#1_2" title="Permanent link">&para;</a></h4>
+<p>テーブル一覧を表示して対象のテーブルの存在を確認する</p>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="2_2">2. テーブルの削除<a class="headerlink" href="#2_2" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">artist</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="3_2">3. テーブル一覧を削除<a class="headerlink" href="#3_2" title="Permanent link">&para;</a></h4>
+<p>テーブル一覧を表示して対象のテーブルが削除されていること確認する</p>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">tables</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="_20">データベースの削除<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<p><code>DROP DATABASE</code>文を使ったデータベースの削除方法</p>
+<h3 id="_21">文法<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">DATABASE</span> <span class="err">データベース名</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="_22">実行例<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
+<h4 id="1_3">1. データベースの一覧を表示<a class="headerlink" href="#1_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code># Database
+artdata
+information_schema
+innodb
+mysql
+performance_schema
+sys
+</code></pre></div>
+<h4 id="2_3">2. データベースの削除<a class="headerlink" href="#2_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">DATABASE</span> <span class="n">artdata</span><span class="p">;</span>
+</code></pre></div>
+<h4 id="3_3">3. データベース削除の確認<a class="headerlink" href="#3_3" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="k">show</span> <span class="n">databases</span><span class="p">;</span>
+</code></pre></div>
+<p>データベースが削除されたこと確認します。</p>
+<div class="highlight"><pre><span></span><code># Database
+information_schema
+innodb
+mysql
+performance_schema
+sys
+</code></pre></div>
+<h2 id="_23">まとめ<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<p>以下コマンドを実行方法を学びました。</p>
+<ul>
+<li>データベースの一覧表示</li>
+</ul>
+<div class="highlight"><pre><span></span><code>show databases;
+</code></pre></div>
+<ul>
+<li>データベースの作成</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">art_data</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>データベースの選択</li>
+</ul>
+<div class="highlight"><pre><span></span><code>use artdata;
+</code></pre></div>
+<ul>
+<li>テーブルの作成</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">artist</span><span class="p">(</span><span class="n">id</span> <span class="nb">int</span> <span class="k">not</span> <span class="k">null</span> <span class="n">auto_increment</span> <span class="k">primary</span> <span class="k">key</span><span class="p">,</span> <span class="n">name</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span><span class="p">,</span> <span class="n">category</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">255</span><span class="p">))</span>
+</code></pre></div>
+<ul>
+<li>テーブル一覧表示</li>
+</ul>
+<div class="highlight"><pre><span></span><code>show tables;
+</code></pre></div>
+<ul>
+<li>テーブルのカラム情報を表示</li>
+</ul>
+<div class="highlight"><pre><span></span><code>show columns from artist;
+</code></pre></div>
+<ul>
+<li>テーブルの削除</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">artist</span><span class="p">;</span>
+</code></pre></div>
+<ul>
+<li>データベースの削除</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span> <span class="k">DATABASE</span> <span class="n">art_data</span><span class="p">;</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="フッター">
+      
+        
+        <a href="../database_and_sql_overview/" class="md-footer__link md-footer__link--prev" aria-label="前: データベースとSQLの概要" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                前
+              </span>
+              データベースとSQLの概要
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../add_and_update_data/" class="md-footer__link md-footer__link--next" aria-label="次: データの追加と更新" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                次
+              </span>
+              データの追加と更新
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2021 bonji@mikuro.net
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\u3000\u3001\u3002\uff0c\uff0e]+", "search.placeholder": "\u691c\u7d22", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>

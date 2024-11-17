@@ -1,0 +1,873 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="MySQL学習のメモ書き">
+      
+      
+      
+        <meta name="author" content="Shuji Narumi">
+      
+      
+      <link rel="icon" href="../../images/logo_w.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>VIEWの活用 - MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#view" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="MySQL" class="md-header__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              VIEWの活用
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="クリア" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MySQL" class="md-nav__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
+      
+      <label class="md-nav__link" for="__nav_1">
+        データベースの基礎力
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="データベースの基礎力" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          データベースの基礎力
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/mysql_for_the_first_time/" class="md-nav__link">
+        MySQLへの接続
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/database_and_sql_overview/" class="md-nav__link">
+        データベースとSQLの概要
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/add_database/" class="md-nav__link">
+        データベースの追加
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/add_and_update_data/" class="md-nav__link">
+        データの追加と更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/advanced_settings_for_table_creation/" class="md-nav__link">
+        テーブル作成の応用設定
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../database_basics/database_construction_exercise/" class="md-nav__link">
+        データベース構築演習
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        SQLデータ解析ノウハウ
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLデータ解析ノウハウ" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          SQLデータ解析ノウハウ
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_restore/" class="md-nav__link">
+        データベースの復元
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_extraction_know-how/" class="md-nav__link">
+        データ抽出のノウハウ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conditional_statement_using_logical_operators/" class="md-nav__link">
+        論理演算子を利用した条件文
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../functions_available_in_sql/" class="md-nav__link">
+        SQLで利用できる関数
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../table_join/" class="md-nav__link">
+        テーブル結合
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          VIEWの活用
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        VIEWの活用
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#view_1" class="md-nav__link">
+    単純なVIEW
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#view_2" class="md-nav__link">
+    結合したテーブルをVIEWとして作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#view_3" class="md-nav__link">
+    VIEWの削除
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../utilization_of_subqueries/" class="md-nav__link">
+        サブクエリの活用
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        SQLの復習（勘所）
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLの復習（勘所）" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SQLの復習（勘所）
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/data_reference/" class="md-nav__link">
+        データの参照
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/record_update/" class="md-nav__link">
+        レコードの更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/table_operation/" class="md-nav__link">
+        テーブルの操作
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/others/" class="md-nav__link">
+        その他
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        etc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="etc" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          etc
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/about_index/" class="md-nav__link">
+        INDEX
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/char/" class="md-nav__link">
+        文字コードについて
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/environmental_setting/" class="md-nav__link">
+        環境変更
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/practice/" class="md-nav__link">
+        課題
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#view_1" class="md-nav__link">
+    単純なVIEW
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#view_2" class="md-nav__link">
+    結合したテーブルをVIEWとして作成
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#view_3" class="md-nav__link">
+    VIEWの削除
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="view">VIEWの活用<a class="headerlink" href="#view" title="Permanent link">&para;</a></h1>
+<p>複雑なクエリをいつでも呼び出せるように設定して、活用する方法を確認します。</p>
+<h2 id="view_1">単純なVIEW<a class="headerlink" href="#view_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">VIEW</span>
+    <span class="o">-&gt;</span>     <span class="n">user_list</span> <span class="k">AS</span>
+    <span class="o">-&gt;</span> <span class="k">SELECT</span>
+    <span class="o">-&gt;</span>     <span class="o">*</span>
+    <span class="o">-&gt;</span> <span class="k">FROM</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.02</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">user_list</span><span class="p">;</span>
+<span class="o">+-----+--------------------------------------+----------------------+--------+------------+----------------------------+----------------------------+</span>
+<span class="o">|</span> <span class="n">id</span>  <span class="o">|</span> <span class="n">email</span>                                <span class="o">|</span> <span class="k">name</span>                 <span class="o">|</span> <span class="n">gender</span> <span class="o">|</span> <span class="n">birthday</span>   <span class="o">|</span> <span class="n">created_at</span>                 <span class="o">|</span> <span class="n">updated_at</span>                 <span class="o">|</span>
+<span class="o">+-----+--------------------------------------+----------------------+--------+------------+----------------------------+----------------------------+</span>
+<span class="o">|</span>   <span class="mi">1</span> <span class="o">|</span> <span class="n">jannie</span><span class="nv">@dach.net</span>                      <span class="o">|</span> <span class="n">Erin</span> <span class="n">Casper</span>          <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">1976</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">20</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.399121</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.399121</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">2</span> <span class="o">|</span> <span class="n">louis</span><span class="p">.</span><span class="n">price</span><span class="nv">@borer.co</span>                 <span class="o">|</span> <span class="n">Sudie</span> <span class="n">Waelchi</span>        <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1999</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.402440</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.402440</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">3</span> <span class="o">|</span> <span class="n">joaquin</span><span class="p">.</span><span class="n">koepp</span><span class="nv">@sawaynschuster.io</span>      <span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>   <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2002</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">09</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.405399</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.405399</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">4</span> <span class="o">|</span> <span class="n">michael</span><span class="nv">@grant.org</span>                    <span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span>        <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1994</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.407876</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.407876</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">5</span> <span class="o">|</span> <span class="n">fredrick_boyle</span><span class="nv">@goyette.org</span>           <span class="o">|</span> <span class="n">Golden</span> <span class="n">Kunde</span>         <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1998</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">02</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.410394</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.410394</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">6</span> <span class="o">|</span> <span class="n">felipe</span><span class="nv">@nitzsche.name</span>                 <span class="o">|</span> <span class="n">Thaddeus</span> <span class="n">Ledner</span>      <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1962</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">30</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.412617</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.412617</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">7</span> <span class="o">|</span> <span class="n">lesley_mitchell</span><span class="nv">@damore.net</span>           <span class="o">|</span> <span class="n">Miss</span> <span class="n">Rudy</span> <span class="n">VonRueden</span>  <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1968</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">08</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.414754</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.414754</span> <span class="o">|</span>
+<span class="o">|</span>   <span class="mi">8</span> <span class="o">|</span> <span class="n">phyli</span><span class="p">.</span><span class="n">huel</span><span class="nv">@boyer.co</span>                  <span class="o">|</span> <span class="n">Drusilla</span> <span class="n">Larson</span>      <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1964</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">26</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.416812</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.416812</span> <span class="o">|</span>
+<span class="p">.......</span>
+<span class="o">|</span>  <span class="mi">92</span> <span class="o">|</span> <span class="n">galen</span><span class="nv">@wiegandmaggio.biz</span>              <span class="o">|</span> <span class="n">Truman</span> <span class="n">Rogahn</span>        <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1960</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">11</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.639826</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.639826</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">93</span> <span class="o">|</span> <span class="n">kermit</span><span class="nv">@vonshanahan.biz</span>               <span class="o">|</span> <span class="n">Soraya</span> <span class="n">Luettgen</span>      <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1963</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">30</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.642277</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.642277</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">94</span> <span class="o">|</span> <span class="n">devora</span><span class="p">.</span><span class="n">douglas</span><span class="nv">@nolanschowalter.co</span>    <span class="o">|</span> <span class="n">Pablo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span>      <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1967</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">27</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.644634</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.644634</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">95</span> <span class="o">|</span> <span class="n">weldon</span><span class="nv">@kaulke.name</span>                   <span class="o">|</span> <span class="n">Leonardo</span> <span class="n">Turner</span>      <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2004</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">13</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.646703</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.646703</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">96</span> <span class="o">|</span> <span class="n">merna</span><span class="nv">@steuberreilly.biz</span>              <span class="o">|</span> <span class="n">Augustine</span> <span class="n">Cassin</span>     <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1997</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">08</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.648822</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.648822</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">97</span> <span class="o">|</span> <span class="n">yen_dickinson</span><span class="nv">@kuhicdubuque.co</span>        <span class="o">|</span> <span class="n">Velva</span> <span class="n">Nolan</span>          <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2001</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">26</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.650878</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.650878</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">98</span> <span class="o">|</span> <span class="n">valery</span><span class="nv">@reilly.org</span>                    <span class="o">|</span> <span class="n">Maurice</span> <span class="n">Koss</span>         <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1987</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.653008</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.653008</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">99</span> <span class="o">|</span> <span class="n">dennis</span><span class="nv">@buckridge.co</span>                  <span class="o">|</span> <span class="n">Domingo</span> <span class="n">Herman</span>       <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1981</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">28</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.654985</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.654985</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">100</span> <span class="o">|</span> <span class="n">hyman</span><span class="p">.</span><span class="n">boyer</span><span class="nv">@mayert.name</span>              <span class="o">|</span> <span class="n">Barton</span> <span class="n">Stracke</span>       <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1995</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">24</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.656992</span> <span class="o">|</span> <span class="mi">2020</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">07</span> <span class="mi">04</span><span class="o">:</span><span class="mi">33</span><span class="o">:</span><span class="mf">58.656992</span> <span class="o">|</span>
+<span class="o">+-----+--------------------------------------+----------------------+--------+------------+----------------------------+----------------------------+</span>
+<span class="mi">100</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="view_2">結合したテーブルをVIEWとして作成<a class="headerlink" href="#view_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">CREATE</span> <span class="k">VIEW</span>
+    <span class="o">-&gt;</span>     <span class="n">order_list</span> <span class="k">AS</span>
+    <span class="o">-&gt;</span> <span class="k">SELECT</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="n">id</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="k">name</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="n">email</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="n">gender</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="n">birthday</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">price</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total_fee</span><span class="p">,</span>
+    <span class="o">-&gt;</span>     <span class="nf">SUM</span><span class="p">(</span><span class="n">amount</span> <span class="o">*</span> <span class="n">price</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span> <span class="k">AS</span> <span class="n">tax_included</span>
+    <span class="o">-&gt;</span> <span class="k">FROM</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span>
+    <span class="o">-&gt;</span> <span class="k">LEFT</span> <span class="k">JOIN</span>
+    <span class="o">-&gt;</span>     <span class="n">orders</span>
+    <span class="o">-&gt;</span> <span class="k">ON</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">orders</span><span class="p">.</span><span class="n">user_id</span>
+    <span class="o">-&gt;</span> <span class="k">INNER</span> <span class="k">JOIN</span>
+    <span class="o">-&gt;</span>     <span class="n">order_details</span>
+    <span class="o">-&gt;</span> <span class="k">ON</span>
+    <span class="o">-&gt;</span> <span class="n">orders</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">order_details</span><span class="p">.</span><span class="n">order_id</span>
+    <span class="o">-&gt;</span> <span class="k">INNER</span> <span class="k">JOIN</span>
+    <span class="o">-&gt;</span>     <span class="n">products</span>
+    <span class="o">-&gt;</span> <span class="k">ON</span>
+    <span class="o">-&gt;</span>     <span class="n">order_details</span><span class="p">.</span><span class="n">product_id</span> <span class="o">=</span> <span class="n">products</span><span class="p">.</span><span class="n">id</span>
+    <span class="o">-&gt;</span> <span class="k">GROUP</span> <span class="k">BY</span>
+    <span class="o">-&gt;</span>     <span class="n">users</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span>     
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">order_list</span><span class="p">;</span>
+<span class="o">+----+----------------------+--------------------------------------+--------+------------+-----------+--------------+</span>
+<span class="o">|</span> <span class="n">id</span> <span class="o">|</span> <span class="k">name</span>                 <span class="o">|</span> <span class="n">email</span>                                <span class="o">|</span> <span class="n">gender</span> <span class="o">|</span> <span class="n">birthday</span>   <span class="o">|</span> <span class="n">total_fee</span> <span class="o">|</span> <span class="n">tax_included</span> <span class="o">|</span>
+<span class="o">+----+----------------------+--------------------------------------+--------+------------+-----------+--------------+</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">Erin</span> <span class="n">Casper</span>          <span class="o">|</span> <span class="n">jannie</span><span class="nv">@dach.net</span>                      <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">1976</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">20</span> <span class="o">|</span>      <span class="mi">5058</span> <span class="o">|</span>       <span class="mf">5563.8</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">Sudie</span> <span class="n">Waelchi</span>        <span class="o">|</span> <span class="n">louis</span><span class="p">.</span><span class="n">price</span><span class="nv">@borer.co</span>                 <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1999</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">24</span> <span class="o">|</span>      <span class="mi">1458</span> <span class="o">|</span>       <span class="mf">1603.8</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">Desire</span> <span class="n">Osinski</span> <span class="n">Sr</span><span class="p">.</span>   <span class="o">|</span> <span class="n">joaquin</span><span class="p">.</span><span class="n">koepp</span><span class="nv">@sawaynschuster.io</span>      <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2002</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">09</span> <span class="o">|</span>      <span class="mi">2482</span> <span class="o">|</span>       <span class="mf">2730.2</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="n">Roy</span> <span class="n">Yundt</span> <span class="n">Jr</span><span class="p">.</span>        <span class="o">|</span> <span class="n">michael</span><span class="nv">@grant.org</span>                    <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1994</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">16</span> <span class="o">|</span>       <span class="mi">154</span> <span class="o">|</span>        <span class="mf">169.4</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">Golden</span> <span class="n">Kunde</span>         <span class="o">|</span> <span class="n">fredrick_boyle</span><span class="nv">@goyette.org</span>           <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1998</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">02</span> <span class="o">|</span>      <span class="mi">2367</span> <span class="o">|</span>       <span class="mf">2603.7</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">6</span> <span class="o">|</span> <span class="n">Thaddeus</span> <span class="n">Ledner</span>      <span class="o">|</span> <span class="n">felipe</span><span class="nv">@nitzsche.name</span>                 <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1962</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">30</span> <span class="o">|</span>       <span class="mi">306</span> <span class="o">|</span>        <span class="mf">336.6</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">7</span> <span class="o">|</span> <span class="n">Miss</span> <span class="n">Rudy</span> <span class="n">VonRueden</span>  <span class="o">|</span> <span class="n">lesley_mitchell</span><span class="nv">@damore.net</span>           <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1968</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">08</span> <span class="o">|</span>      <span class="mi">6531</span> <span class="o">|</span>       <span class="mf">7184.1</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">8</span> <span class="o">|</span> <span class="n">Drusilla</span> <span class="n">Larson</span>      <span class="o">|</span> <span class="n">phyli</span><span class="p">.</span><span class="n">huel</span><span class="nv">@boyer.co</span>                  <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1964</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">26</span> <span class="o">|</span>      <span class="mi">4576</span> <span class="o">|</span>       <span class="mf">5033.6</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">9</span> <span class="o">|</span> <span class="n">Kip</span> <span class="n">Raynor</span> <span class="n">Jr</span><span class="p">.</span>       <span class="o">|</span> <span class="n">dirk</span><span class="p">.</span><span class="n">pagac</span><span class="nv">@rosenbaumdaugherty.net</span>    <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1964</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">20</span> <span class="o">|</span>      <span class="mi">1561</span> <span class="o">|</span>       <span class="mf">1717.1</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">10</span> <span class="o">|</span> <span class="n">Coy</span> <span class="n">Swaniawski</span>       <span class="o">|</span> <span class="n">linwood</span><span class="p">.</span><span class="n">vonrueden</span><span class="nv">@hueljones.biz</span>      <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1978</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">12</span> <span class="o">|</span>       <span class="mi">178</span> <span class="o">|</span>        <span class="mf">195.8</span> <span class="o">|</span>
+<span class="p">..........</span>
+<span class="o">|</span> <span class="mi">89</span> <span class="o">|</span> <span class="n">Dorian</span> <span class="n">Gislason</span>      <span class="o">|</span> <span class="n">rocio</span><span class="nv">@gleichnerschiller.info</span>         <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">2004</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">09</span> <span class="o">|</span>      <span class="mi">1247</span> <span class="o">|</span>       <span class="mf">1371.7</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">90</span> <span class="o">|</span> <span class="n">Annetta</span> <span class="n">Friesen</span> <span class="n">II</span>   <span class="o">|</span> <span class="n">rae</span><span class="p">.</span><span class="n">streich</span><span class="nv">@ruecker.org</span>              <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1979</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">20</span> <span class="o">|</span>      <span class="mi">3694</span> <span class="o">|</span>       <span class="mf">4063.4</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">91</span> <span class="o">|</span> <span class="n">Rickie</span> <span class="n">Littel</span>        <span class="o">|</span> <span class="n">berniece</span><span class="nv">@daugherty.io</span>                <span class="o">|</span>      <span class="mi">2</span> <span class="o">|</span> <span class="mi">1978</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">05</span> <span class="o">|</span>      <span class="mi">2362</span> <span class="o">|</span>       <span class="mf">2598.2</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">92</span> <span class="o">|</span> <span class="n">Truman</span> <span class="n">Rogahn</span>        <span class="o">|</span> <span class="n">galen</span><span class="nv">@wiegandmaggio.biz</span>              <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1960</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">11</span> <span class="o">|</span>      <span class="mi">2242</span> <span class="o">|</span>       <span class="mf">2466.2</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">93</span> <span class="o">|</span> <span class="n">Soraya</span> <span class="n">Luettgen</span>      <span class="o">|</span> <span class="n">kermit</span><span class="nv">@vonshanahan.biz</span>               <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1963</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">30</span> <span class="o">|</span>       <span class="mi">221</span> <span class="o">|</span>        <span class="mf">243.1</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">94</span> <span class="o">|</span> <span class="n">Pablo</span> <span class="n">Huels</span> <span class="n">Jr</span><span class="p">.</span>      <span class="o">|</span> <span class="n">devora</span><span class="p">.</span><span class="n">douglas</span><span class="nv">@nolanschowalter.co</span>    <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1967</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">27</span> <span class="o">|</span>      <span class="mi">1256</span> <span class="o">|</span>       <span class="mf">1381.6</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">95</span> <span class="o">|</span> <span class="n">Leonardo</span> <span class="n">Turner</span>      <span class="o">|</span> <span class="n">weldon</span><span class="nv">@kaulke.name</span>                   <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2004</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">13</span> <span class="o">|</span>      <span class="mi">3109</span> <span class="o">|</span>       <span class="mf">3419.9</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">96</span> <span class="o">|</span> <span class="n">Augustine</span> <span class="n">Cassin</span>     <span class="o">|</span> <span class="n">merna</span><span class="nv">@steuberreilly.biz</span>              <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">1997</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">08</span> <span class="o">|</span>      <span class="mi">3452</span> <span class="o">|</span>       <span class="mf">3797.2</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">97</span> <span class="o">|</span> <span class="n">Velva</span> <span class="n">Nolan</span>          <span class="o">|</span> <span class="n">yen_dickinson</span><span class="nv">@kuhicdubuque.co</span>        <span class="o">|</span>      <span class="mi">1</span> <span class="o">|</span> <span class="mi">2001</span><span class="o">-</span><span class="mi">11</span><span class="o">-</span><span class="mi">26</span> <span class="o">|</span>       <span class="mi">199</span> <span class="o">|</span>        <span class="mf">218.9</span> <span class="o">|</span>
+<span class="o">|</span> <span class="mi">99</span> <span class="o">|</span> <span class="n">Domingo</span> <span class="n">Herman</span>       <span class="o">|</span> <span class="n">dennis</span><span class="nv">@buckridge.co</span>                  <span class="o">|</span>      <span class="mi">0</span> <span class="o">|</span> <span class="mi">1981</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">28</span> <span class="o">|</span>      <span class="mi">3865</span> <span class="o">|</span>       <span class="mf">4251.5</span> <span class="o">|</span>
+<span class="o">+----+----------------------+--------------------------------------+--------+------------+-----------+--------------+</span>
+<span class="mi">90</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="view_3">VIEWの削除<a class="headerlink" href="#view_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SHOW</span> <span class="k">TABLES</span><span class="p">;</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_ecsite</span>           <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="n">case4</span>                      <span class="o">|</span>
+<span class="o">|</span> <span class="n">order_details</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">order_list</span>                 <span class="o">|</span>
+<span class="o">|</span> <span class="n">orders</span>                     <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_browsing_histories</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_review_likes</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_reviews</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">products</span>                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">simpleid</span>                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">user_list</span>                  <span class="o">|</span>
+<span class="o">|</span> <span class="n">users</span>                      <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="mi">11</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.01</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">DROP</span> <span class="k">VIEW</span> <span class="n">user_list</span><span class="p">;</span>
+<span class="k">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+
+<span class="n">mysql</span><span class="o">&gt;</span> <span class="k">SHOW</span> <span class="k">TABLES</span><span class="p">;</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="n">Tables_in_ecsite</span>           <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="o">|</span> <span class="n">case4</span>                      <span class="o">|</span>
+<span class="o">|</span> <span class="n">order_details</span>              <span class="o">|</span>
+<span class="o">|</span> <span class="n">order_list</span>                 <span class="o">|</span>
+<span class="o">|</span> <span class="n">orders</span>                     <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_browsing_histories</span> <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_review_likes</span>       <span class="o">|</span>
+<span class="o">|</span> <span class="n">product_reviews</span>            <span class="o">|</span>
+<span class="o">|</span> <span class="n">products</span>                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">simpleid</span>                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">users</span>                      <span class="o">|</span>
+<span class="o">+----------------------------+</span>
+<span class="mi">10</span> <span class="k">rows</span> <span class="k">in</span> <span class="kt">set</span> <span class="p">(</span><span class="mf">0.00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="フッター">
+      
+        
+        <a href="../table_join/" class="md-footer__link md-footer__link--prev" aria-label="前: テーブル結合" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                前
+              </span>
+              テーブル結合
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../utilization_of_subqueries/" class="md-footer__link md-footer__link--next" aria-label="次: サブクエリの活用" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                次
+              </span>
+              サブクエリの活用
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2021 bonji@mikuro.net
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\u3000\u3001\u3002\uff0c\uff0e]+", "search.placeholder": "\u691c\u7d22", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1233 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="MySQL学習のメモ書き">
+      
+      
+      
+        <meta name="author" content="Shuji Narumi">
+      
+      
+      <link rel="icon" href="../../images/logo_w.svg">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
+    
+    
+      
+        <title>データベースとSQLの概要 - MySQL</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1118c9be.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ba0d045b.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sql" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="MySQL" class="md-header__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MySQL
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              データベースとSQLの概要
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="クリア" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="MySQL" class="md-nav__button md-logo" aria-label="MySQL" data-md-component="logo">
+      
+  <img src="../../images/logo_w.svg" alt="logo">
+
+    </a>
+    MySQL
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
+      
+      <label class="md-nav__link" for="__nav_1">
+        データベースの基礎力
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="データベースの基礎力" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          データベースの基礎力
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mysql_for_the_first_time/" class="md-nav__link">
+        MySQLへの接続
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          データベースとSQLの概要
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        データベースとSQLの概要
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    データベースの基礎
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    データベースとストレージ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    データベースの役割
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    トランザクション
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    リレーショナルデーターベースの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql" class="md-nav__link">
+    MySQLの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql_1" class="md-nav__link">
+    SQLの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rds" class="md-nav__link">
+    RDSの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql-workbench" class="md-nav__link">
+    MySQL Workbenchの概要
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_database/" class="md-nav__link">
+        データベースの追加
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_and_update_data/" class="md-nav__link">
+        データの追加と更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_settings_for_table_creation/" class="md-nav__link">
+        テーブル作成の応用設定
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database_construction_exercise/" class="md-nav__link">
+        データベース構築演習
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        SQLデータ解析ノウハウ
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLデータ解析ノウハウ" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          SQLデータ解析ノウハウ
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/database_restore/" class="md-nav__link">
+        データベースの復元
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/data_extraction_know-how/" class="md-nav__link">
+        データ抽出のノウハウ
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/conditional_statement_using_logical_operators/" class="md-nav__link">
+        論理演算子を利用した条件文
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/functions_available_in_sql/" class="md-nav__link">
+        SQLで利用できる関数
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/table_join/" class="md-nav__link">
+        テーブル結合
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_view/" class="md-nav__link">
+        VIEWの活用
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SQL_data_analysis_know-how/utilization_of_subqueries/" class="md-nav__link">
+        サブクエリの活用
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        SQLの復習（勘所）
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="SQLの復習（勘所）" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SQLの復習（勘所）
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/data_reference/" class="md-nav__link">
+        データの参照
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/record_update/" class="md-nav__link">
+        レコードの更新
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/table_operation/" class="md-nav__link">
+        テーブルの操作
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../memo/others/" class="md-nav__link">
+        その他
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        etc
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="etc" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          etc
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/about_index/" class="md-nav__link">
+        INDEX
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/char/" class="md-nav__link">
+        文字コードについて
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/environmental_setting/" class="md-nav__link">
+        環境変更
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../etc/practice/" class="md-nav__link">
+        課題
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    データベースの基礎
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    データベースとストレージ
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    データベースの役割
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    トランザクション
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    リレーショナルデーターベースの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql" class="md-nav__link">
+    MySQLの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sql_1" class="md-nav__link">
+    SQLの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rds" class="md-nav__link">
+    RDSの概要
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysql-workbench" class="md-nav__link">
+    MySQL Workbenchの概要
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="sql">データベースとSQLの概要<a class="headerlink" href="#sql" title="Permanent link">&para;</a></h1>
+<p>データベースとSQLに関する基本的な知識を学習します。</p>
+<h2 id="_1">データベースの基礎<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>データベースは関連したデータの形式を揃えて収集・整理して、検索などの操作やデータ管理を実行するシステムです。この機能を実現したシステムをDBMS（データベースマネージメントシステム）といいます。</p>
+<ul>
+<li>追加(Create): データを整理して保存</li>
+<li>参照(Read): 必要なデータを参照・抽出</li>
+<li>更新(Update): データの変化に応じて好きな時に更新したい</li>
+<li>削除(Delete): 必要ないデータを削除したい</li>
+</ul>
+<h2 id="_2">データベースとストレージ<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>ストレージ: データを永続的に記憶する装置（データーベースを構成する一つの要素となります）</li>
+<li>データーベース: ストレージ＋データを管理・操作するデータベースソフトウェア</li>
+</ul>
+<h2 id="_3">データベースの役割<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>データベースはデータ操作を以上なく実行でき、データを安全に保護しつつ、保存・操作する仕組みを提供している。</p>
+<h3 id="_4">データ操作にかかる様々な問題<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>システムがクラッシュしたときにデータが消えないか？</li>
+<li>データを誤って削除してしまった場合に対処できないか？</li>
+<li>データ抽出に誤りが発生しないか？</li>
+<li>2人が同時に同じデータにアクセスした際にどうするか？</li>
+<li>大量のデータをうまく検索できないか？</li>
+</ul>
+<h3 id="_5">データベースの役割を支える仕組み<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>トランザクション:<br />
+  データベースをある一貫した状態から別の一貫した状態へ変更する1つの処理の束のこと</li>
+<li>データモデル:<br />
+  実世界におかえるデータの集合を、DBMS上で利用可能な形に落とし込むためのモデル</li>
+</ul>
+<h2 id="_6">トランザクション<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>データベースをある一貫した状態から別の一貫した状態へ変更する1つの処理の束のこと。</p>
+<ul>
+<li>同時にアクセスした場合にうまく処理を行う</li>
+<li>データ処理に失敗したら、元に戻してくれる</li>
+<li>システムがクラッシュしてもデータを保護する</li>
+</ul>
+<h3 id="acid">ACID<a class="headerlink" href="#acid" title="Permanent link">&para;</a></h3>
+<p>ACIDは信頼性のあるトランザクションシステムの持つべき性質のこと</p>
+<ul>
+<li>原子性(Atomicity):<br />
+  トランザクションが「全て実行されるか」か「一つも実行されない」のどちらかの状態になる性質</li>
+<li>整合性(Consistency):<br />
+  トランザクションの前後でデータの整合性が保たれ、矛盾のない状態が継続される性質</li>
+<li>独立性(Isolation):<br />
+  トランザクション実行中の処理過程が外部から隠蔽され、他の処理などに影響を与えない性質</li>
+<li>耐久性(Durability):<br />
+  トランザクションが完了したら、その結果は記録され、クラッシュしても失われることがないという性質</li>
+</ul>
+<h3 id="durability">耐久性(Durability)<a class="headerlink" href="#durability" title="Permanent link">&para;</a></h3>
+<p>データを更新する際にCOMMITする更新が反映されるが、COMMITされないとデータがロールバックして保護する</p>
+<p>例)<br />
+データを更新中にデータベースがクラッシュした場合、クラッシュのタイミングで以下のようなデータの保護を行う。</p>
+<ul>
+<li>COMMIT実施後に、データベースがクラッシュ:<br />
+  更新したデータが保護される</li>
+<li>COMMIT未実施でデータベースがクラッシュ:
+  更新前のデータにロールバックする</li>
+</ul>
+<h3 id="consistency">整合性(Consistency)<a class="headerlink" href="#consistency" title="Permanent link">&para;</a></h3>
+<p>同時に複数人がアクセスした場合などにデータ整合性を維持する必要がある。</p>
+<h3 id="_7">整合性モデル<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li>結果整合性（弱い整合性）:<br />
+  更新中に他の参照がある場合、参照を特に制限せずに更新前（コミット前）の古いテータを参照することで整合性を保つ</li>
+<li>強い整合性:<br />
+  変更中に他の参照がある場合は、データの参照ができない状態で整合性を保つ</li>
+</ul>
+<h3 id="_8">データモデル<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>データモデルはデータベースのデータの持ち方などの構造や処理を定めるデータの論理的な表現方法で、データモデルに応じたトランザクション機能を実現する必要がある。</p>
+<h4 id="_9">データモデルの種類<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
+<ul>
+<li>リレーショナルモデル</li>
+<li>グラフモデル</li>
+<li>キーバリューストア</li>
+<li>オブジェクト</li>
+<li>ドキュメント</li>
+<li>ワイドカラム</li>
+<li>階層型</li>
+</ul>
+<h2 id="_10">リレーショナルデーターベースの概要<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://ja.wikipedia.org/wiki/%E9%96%A2%E4%BF%82%E3%83%A2%E3%83%87%E3%83%AB">リレーショナルモデル</a>が基本的なデータモデルとなっているデータベース  </li>
+<li>テーブルが集合してデータベースとなる</li>
+<li>テーブル同士は、キーを共有してリレーション（関係）という単位でデータが構造化される</li>
+<li>テーブルは行と列によって表現され、行と列を指定しデータを特定する</li>
+<li>行単位でデータを追加・更新などをするため、行指向データベースと呼ばれている</li>
+</ul>
+<h3 id="_11">リレーショナルデータベースマネジメントシステムの仕組み<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>多くのリレーショナルデータベースマネジメントシステムは、以下の3つの要素で成り立っている</p>
+<ul>
+<li>テーブル構造</li>
+<li>データベースエンジン</li>
+<li>SQL</li>
+</ul>
+<h3 id="_12">データベースエンジン<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>リレーショナルデーターベースがDBにデータを挿入、抽出、更新及び削除（CRUD）するために使用する基礎となるソフトウェア</p>
+<h4 id="_13">データベースエンジンの種類<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Oracle Database</li>
+<li>SQL Server</li>
+<li>DB2</li>
+<li>MySQL</li>
+<li>MariaDB</li>
+<li>PostgreSQL</li>
+</ul>
+<h2 id="mysql">MySQLの概要<a class="headerlink" href="#mysql" title="Permanent link">&para;</a></h2>
+<p>OraelやPostgreSQLと並んで世界で最も利用されているデータベース</p>
+<ul>
+<li>世界中で多くの企業が使用しているデータベース管理システム</li>
+<li>オープンソースでNo1シェア</li>
+<li>オープンソースとして基本的に無料で利用できる</li>
+<li>Linux、Windows、MacOS などの複数のOS利用可能</li>
+<li>現在は、オラクルが運営しており信頼性も高い</li>
+<li>便利な管理ツールが充実（MySQL Workbench）</li>
+</ul>
+<h3 id="mysql_1">MySQL<a class="headerlink" href="#mysql_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th align="center">エディション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">コミュニティ版</td>
+<td align="left">* 無料で利用可能なバージョン<br>* 多くのオープンソース・ディベロッパーが参加する、巨大で活発なコミュニティによるサーポートを享受できる</td>
+</tr>
+<tr>
+<td align="center">商用版</td>
+<td align="left">有料で利用する高性能バージョン<br>MySQL Enterprise Editionは高度な機能、管理ツール、テクニカルサポートが包括的にまとまれれているため、最高レベルのMySQLスケーラビリティ、セキュリティ、信頼性、アップタイムを実現</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mysql_2">MySQLを利用する理由<a class="headerlink" href="#mysql_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>世界中に多くの企業が使用しているデータベース管理システムであり、オラクルが提供していることで信頼性が高い。</li>
+<li>ゆーざコミュニティや開発コミュニティが大きいため、情報やツールが充実している</li>
+<li>結果サポートが充実</li>
+<li>マルチプラットフォームであり、さまざまな環境で利用可能である</li>
+<li>バージョンアップが容易である</li>
+</ul>
+<h3 id="_14">ストレージエンジン<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
+<p>MySQLには、さまざまなタイプのストレージエンジンがあり、それらによって利用できるサポートやトランザクション処理などが異なってくる。</p>
+<ul>
+<li>MEMORY</li>
+<li>MRG_MYISAM</li>
+<li>CSV</li>
+<li>FEDERATED</li>
+<li>PERFORMANCE_SCHEMA</li>
+<li>MyISAM</li>
+<li>InnoDB</li>
+<li>BLACKHOLE</li>
+<li>ARCHIVE</li>
+</ul>
+<h4 id="innodb">ストレージエンジン:InnoDB<a class="headerlink" href="#innodb" title="Permanent link">&para;</a></h4>
+<p>InnoDBエンジンは、MySQLに豊富なトランザクション機能を提供するストレージエンジン（AWSのRDSではInnoDBを利用する事になる）</p>
+<h3 id="mysql_3">MySQLのバージョン<a class="headerlink" href="#mysql_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th align="center">エディション</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">5.7</td>
+<td align="left">* 最も長く利用されているバージョンであり、互換性があるツールや情報が豊富<br>* 今でも最も多くの企業が5.7を利用してデーターベースを構築している</td>
+</tr>
+<tr>
+<td align="center">8.0</td>
+<td align="left">* MySQL 5.7より最大2倍高速<br> * パフォーマンス、セキュリティ、生産性が大幅に向上し、次世代型のWebアプリケーション、モバイルアプリケーション、組込アプリケーション、クラウドアプリケーションの構築が可能<br>* 5.7との互換性が低い欠点がある</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sql_1">SQLの概要<a class="headerlink" href="#sql_1" title="Permanent link">&para;</a></h2>
+<p>SQL（Structured Queary Language）はリレーショナルデータベースを操作するための言語</p>
+<h3 id="_15">クエリ<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
+<p>SQLはクエリを実行する1つの言語であり、クエリとはデータベースについする命令文のこと</p>
+<ul>
+<li>追加　(Create)): データを整理して保存したい</li>
+<li>参照 (Read): 必要なデータを参照または抽出したい</li>
+<li>更新 (Update): データの変化に応じて好きな時に更新したい</li>
+<li>削除 (Dalete): 必要ないデータを削除したい</li>
+</ul>
+<h3 id="sql_2">SQLのタイプ<a class="headerlink" href="#sql_2" title="Permanent link">&para;</a></h3>
+<p>以下3つのタイプに分かれる</p>
+<table>
+<thead>
+<tr>
+<th align="center">タイプ</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">データ定義言語(DDL)</td>
+<td align="left">DDL: Data Definition Language<br>データベースを定義するための言語<br><code>CREATE</code>や<code>DROP</code>コマンドによってテーブルとリレーショナルシップを作成したり削除したりする</td>
+</tr>
+<tr>
+<td align="center">データ操作言語(DML)</td>
+<td align="left">DML: Data Manipulation Language<br>データベースを操作するための言語<br><code>INSERT</code>や<code>DELETE</code>コマンドによって目的や条件に応じてデータを抽出したり、更新したりするために利用する</td>
+</tr>
+<tr>
+<td align="center">データ制御言語(DCL)</td>
+<td align="left">DCL: Data Contol Language<br>データを制御するための言語<br><code>GRANT</code>や<code>COMMIT</code>コマンドによってトランザクションやシステム管理のための権限設定などに利用される</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ddldata-definition-language">DDL（Data Definition Language）<a class="headerlink" href="#ddldata-definition-language" title="Permanent link">&para;</a></h3>
+<p>データベースやテーブルを作成したり、削除したりする。</p>
+<h4 id="_16">コマンドの種類<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
+<ul>
+<li>CREATE : 新しいテーブルやビューなどを作成</li>
+<li>ALTER : テーブルの構造を変更</li>
+<li>DROP : 既存のテーブルやビューを削除</li>
+<li>RENAME : テーブル名を変更</li>
+</ul>
+<h3 id="dmldata-manipulation-language">DML（Data Manipulation Language）<a class="headerlink" href="#dmldata-manipulation-language" title="Permanent link">&para;</a></h3>
+<p>データベースにデータを追加・更新・削除したりする</p>
+<h4 id="_17">コマンドの種類<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
+<ul>
+<li>SELECT : テーブルやビューからの行の値を取得</li>
+<li>INSERT : テーブルに新しい行を挿入</li>
+<li>UPDARTE : テーブルの行や項目の値を更新</li>
+<li>DELETE : テーブルから行を削除</li>
+<li>MERGE : 行の挿入と更新を１ステートメントで行う</li>
+</ul>
+<h3 id="dcldata-contol-language">DCL（Data Contol Language）<a class="headerlink" href="#dcldata-contol-language" title="Permanent link">&para;</a></h3>
+<p>権限を設定したり、トランザクションの制御を実施する</p>
+<h4 id="_18">コマンドの種類<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
+<ul>
+<li>BEGIN : トランザクションを開始</li>
+<li>END : トランザクションを終了</li>
+<li>COMMIT : トランザクションを確定</li>
+<li>ROLLBACK : トランザクション内のクエリを取りやめる</li>
+<li>GRANT : テーブル内の個々の列に対して権限を設定</li>
+<li>REVOKE : テーブル内の個々の列に対して権限を取り消す</li>
+</ul>
+<h3 id="sql_3">SQLのメリット<a class="headerlink" href="#sql_3" title="Permanent link">&para;</a></h3>
+<p>最も利用されるデータベース操作言語であり、データ分析やそれに基づく経営課題への対応力を得るうえでも必須のノウハウ</p>
+<ul>
+<li>見たい時に見たい範囲のデータを見ることが可能<ul>
+<li>データの見え方を自由に加工できる</li>
+<li>データ範囲を自由に指定できる</li>
+</ul>
+</li>
+<li>データから打ち手を検討することができる<ul>
+<li>ビジネスデータを自分好みに応じてデータベースから抽出して、検証することができる</li>
+<li>機械学習用のデータも抽出可能</li>
+</ul>
+</li>
+</ul>
+<h2 id="rds">RDSの概要<a class="headerlink" href="#rds" title="Permanent link">&para;</a></h2>
+<p>Amazon RDSはさまざまなデータベーソフトウェアに対応したフルマネージドなリレーショナルデータベース</p>
+<p>以下のソフトウェアを利用したデータベースを構築できる</p>
+<ul>
+<li>MySQL</li>
+<li>ORACLE</li>
+<li>Microsoft SQL Server</li>
+<li>postgreSQL</li>
+<li>MariaDB</li>
+<li>Amazon Aurora</li>
+</ul>
+<h3 id="aws">AWSのデータベース構築<a class="headerlink" href="#aws" title="Permanent link">&para;</a></h3>
+<p>AWSにおけるデータベース構築はEC2に自らインストールして構築する方法と、専用DBサービスを利用する方法の２通りあり。</p>
+<table>
+<thead>
+<tr>
+<th align="center">構築方法</th>
+<th align="left">メリット</th>
+<th align="left">デメリット</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">EC2インスタンス内にデータベースを構築</td>
+<td align="left">自由にDB構成や機能を利用</td>
+<td align="left">構築・運用が手間</td>
+</tr>
+<tr>
+<td align="center">RDSなどのマネージド型サービスを利用して構築</td>
+<td align="left">構築・管理が楽</td>
+<td align="left">AWS提供の範囲内での利用制限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="rds_1">RDSの制約事項<a class="headerlink" href="#rds_1" title="Permanent link">&para;</a></h3>
+<p>RDSはマネージド型で楽な反面、AWSから提供される機能範囲内での制限を受けます</p>
+<h4 id="_19">主な制限<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
+<ul>
+<li>バージョンが限定される</li>
+<li>キャパシティに上限がある</li>
+<li>OSへのログインができない</li>
+<li>フィイルシステムへのアクセスができない</li>
+<li>IPアドレスが固定できない</li>
+<li>一部の機能が使えない</li>
+<li>個別パッチは適用できない</li>
+</ul>
+<h3 id="rds_2">RDSの特徴<a class="headerlink" href="#rds_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>RDS自体がマネージド型の高可用なのに加えて、マルチAZによるMaster／Slave構成を容易に構築することができる。
+AZ間で同期レプリケーションや、自動フェイルオーバーなどが可能です</li>
+<li>参照専用のリードレプリカを最大5台（Auroraは15台）設置し、DBの読み取り処理をスケールアウトできる</li>
+<li>自動・手動でスナップショットを取得して、保存管理し耐障害性を確保できる</li>
+</ul>
+<h3 id="_20">スケーリング<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<p>マネージメントコンソールやAPIからスケールアップ可能</p>
+<ul>
+<li>インスタンスタイプを変更してスケールアップ／ダウンを実施</li>
+<li>コマンドライン（AWS CLI）やAPIからストレージを数クリックで容易にスケールアップ／ダウンをする</li>
+<li>一時的にインスタンスタイプを大きくして、その後戻すことも可能</li>
+<li>ストレージサイズは、拡張ができるが縮小はできない</li>
+<li>データベースシャーディングを利用して、RDSの書き込み処理をスケーリングすることが可能<br />
+  例）id: 1001~2000まではRDS1、id: 0~1000まではRDS2に書き込み</li>
+</ul>
+<h3 id="db">DBインスタンスの暗号化<a class="headerlink" href="#db" title="Permanent link">&para;</a></h3>
+<p>保管時のインスタンスとスナップショットの暗号化が可能</p>
+<h4 id="_21">暗号化対象<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h4>
+<ul>
+<li>DBインスタンス</li>
+<li>自動バックアップ</li>
+<li>リードレプリカ</li>
+<li>スナップショット</li>
+</ul>
+<h4 id="_22">暗号化方式<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h4>
+<ul>
+<li>AES-256暗号化</li>
+<li>AWS KMSによる鍵管理</li>
+<li>リードレプリカも同じ鍵を利用</li>
+<li>インスタンス作成時にのみ設定可能</li>
+<li>スナップショットのコピーの暗号化／リストア可能</li>
+</ul>
+<h2 id="mysql-workbench">MySQL Workbenchの概要<a class="headerlink" href="#mysql-workbench" title="Permanent link">&para;</a></h2>
+<p>MySQL Workbenchは５つの機能領域を提供する</p>
+<table>
+<thead>
+<tr>
+<th align="center">機能</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">SQLの開発</td>
+<td align="left">データベースサーバーへの接続を作成及び管理ができます。接続パラメータを構成できるほか、組込のSQL Editorを使用してデータベース接続でSQLクエリーを実行することができます</td>
+</tr>
+<tr>
+<td align="center">データモデリング</td>
+<td align="left">Table Editorを使用して、データベーススキーマのモデルのグラフィカルな作成などデータベースの全ての特性の編集を行えます</td>
+</tr>
+<tr>
+<td align="center">サーバーの管理</td>
+<td align="left">サーバインスタンスを作成及び管理できます</td>
+</tr>
+<tr>
+<td align="center">データ移行</td>
+<td align="left">PostgreSQLなどからMySQLに移行できます。移行では、以前のバージョンのMySQLから最新へのリリースへの移行もサポートされます</td>
+</tr>
+<tr>
+<td align="center">エンタープライズサポート</td>
+<td align="left">MySQL Enterprise Backup 及び、MySQL Auditなどのエンタプライズ製品をサポートします</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_23">トップ画面<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
+<h4 id="_24">左側のアイコンの説明<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h4>
+<ul>
+<li>SQLとサーバーの管理画面</li>
+<li>データモデリングの画面</li>
+<li>データ移行画面</li>
+</ul>
+<h3 id="sql_4">SQLとサーバーの管理<a class="headerlink" href="#sql_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>クエリー操作画面
+<img alt="クエリー操作画面" src="../../images/MySQLWorkbench_query.png" title="クエリー操作画面" /></li>
+<li>サーバ情報表示画面
+<img alt="サーバ情報表示画面" src="../../images/MySQLWorkbench_serverstatus.png" title="サーバ情報表示画面" /></li>
+</ul>
+<h4 id="_25">データベースとスキーマの作成<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h4>
+<p>データベース（またはスキーマ）を作成して、テーブルの集合としてのデータベースを定義する</p>
+<ul>
+<li>データベースの作成 : MySQLではテーブルやインデックスのまとまりをデータベースと呼ぶ</li>
+<li>スキーマの作成 : スキーマはMySQLではデータベースと同じ意味で利用する</li>
+</ul>
+<h4 id="_26">テーブルとビュー<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h4>
+<p>データの保存と参照に利用するのがテーブルとビュー</p>
+<ul>
+<li>テーブル : データを保存しておくための「表」にあたるデータ格納先</li>
+<li>ビュー : テーブルの得部分や複数テーブルを結合し、ユーザに必要な部分だけをあたかも一つのテーブルであるかのように見せる仮想的なテーブル</li>
+</ul>
+<h4 id="_27">ファンクションとストアドプロシージャ一<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h4>
+<p>一連のSQLクエリを関数のように記録して実行できるようにする設定機能として、ファンクションとストアドプロシージャがある</p>
+<ul>
+<li>ストアドプロシージャ :<br />
+  DB上で実施する一連処理を事前に設定して、名前をつけて関数のように利用するプロセス設定<br />
+<strong>戻り値あり</strong></li>
+<li>ファンクション :<br />
+  DB上で実施する一連処理を事前に設定して、名前をつけて関数のように利用するプロセス設定<br />
+<strong>実行のみで戻り値なし</strong></li>
+</ul>
+<h3 id="_28">データモデリング機能<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
+<p>Table Editorを利用して、ER図によるデータモデリング実施できる</p>
+<h3 id="_29">データ移行<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
+<p>データ移行に関する各種機能を利用することができる</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="フッター">
+      
+        
+        <a href="../mysql_for_the_first_time/" class="md-footer__link md-footer__link--prev" aria-label="前: MySQLへの接続" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                前
+              </span>
+              MySQLへの接続
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../add_database/" class="md-footer__link md-footer__link--next" aria-label="次: データベースの追加" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                次
+              </span>
+              データベースの追加
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright (c) 2021 bonji@mikuro.net
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant"], "translations": {"clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\s\\-\u3000\u3001\u3002\uff0c\uff0e]+", "search.placeholder": "\u691c\u7d22", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.53c85856.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.716f8af4.min.js"></script>
+      
+    
+  </body>
+</html>
